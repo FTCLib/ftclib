@@ -1,7 +1,6 @@
 package com.arcrobotics.ftclib.controller;
 
 public class PController extends PDController {
-
     /**
      * Default constructor, only takes a p-value.
      *
@@ -11,11 +10,8 @@ public class PController extends PDController {
         super(kp, 0);
     }
 
-    /**
-     * The extended constructor.
-     */
+    /** The extended constructor. */
     public PController(double kp, double sp, double pv) {
         super(kp, 0, sp, pv);
     }
-
 }

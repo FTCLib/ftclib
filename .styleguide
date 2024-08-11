@@ -1,0 +1,10 @@
+
+
+licenseUpdateExclude {
+  /
+}
+
+modifiableFileExclude {
+  \.jar
+  \.png$
+}

@@ -3,11 +3,9 @@ package com.example.ftclibexamples.OldCommandSample;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.arcrobotics.ftclib.util.Direction;
 import com.arcrobotics.ftclib.util.Timing;
-
 import java.util.concurrent.TimeUnit;
 
 public class SimpleLinearLift {
-
     MotorEx m_liftMotor;
 
     public SimpleLinearLift(MotorEx liftMotor) {
@@ -42,5 +40,4 @@ public class SimpleLinearLift {
     public void resetPositionCounter() {
         m_liftMotor.resetEncoder();
     }
-
 }

@@ -2,7 +2,6 @@ package com.example.ftclibexamples.VisionSample;
 
 import com.arcrobotics.ftclib.vision.UGContourRingPipeline;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -18,30 +17,28 @@ public class UGContourRingPipelineJavaExample extends LinearOpMode {
     private static final boolean DEBUG = false; // if debug is wanted, change to true
 
     private static final boolean USING_WEBCAM = false; // change to true if using webcam
-    private static final String WEBCAM_NAME = ""; // insert webcam name from configuration if using webcam
+    private static final String WEBCAM_NAME =
+            ""; // insert webcam name from configuration if using webcam
 
     private UGContourRingPipeline pipeline;
     private OpenCvCamera camera;
 
-    private final int cameraMonitorViewId = this
-            .hardwareMap
-            .appContext
-            .getResources().getIdentifier(
-                    "cameraMonitorViewId",
-                    "id",
-                    hardwareMap.appContext.getPackageName()
-            );
+    private final int cameraMonitorViewId =
+            this.hardwareMap
+                    .appContext
+                    .getResources()
+                    .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
     @Override
     public void runOpMode() throws InterruptedException {
         if (USING_WEBCAM) {
-            camera = OpenCvCameraFactory
-                    .getInstance()
-                    .createWebcam(hardwareMap.get(WebcamName.class, WEBCAM_NAME), cameraMonitorViewId);
+            camera =
+                    OpenCvCameraFactory.getInstance()
+                            .createWebcam(hardwareMap.get(WebcamName.class, WEBCAM_NAME), cameraMonitorViewId);
         } else {
-            camera = OpenCvCameraFactory
-                    .getInstance()
-                    .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+            camera =
+                    OpenCvCameraFactory.getInstance()
+                            .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         }
 
         camera.setPipeline(pipeline = new UGContourRingPipeline(telemetry, DEBUG));
@@ -50,19 +47,16 @@ public class UGContourRingPipelineJavaExample extends LinearOpMode {
 
         UGContourRingPipeline.Config.setHORIZON(HORIZON);
 
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                camera.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
-            }
+        camera.openCameraDeviceAsync(
+                new OpenCvCamera.AsyncCameraOpenListener() {
+                    @Override
+                    public void onOpened() {
+                        camera.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+                    }
 
-            @Override
-            public void onError(int errorCode) {
-
-            }
-        }
-
-        );
+                    @Override
+                    public void onError(int errorCode) {}
+                });
 
         waitForStart();
 

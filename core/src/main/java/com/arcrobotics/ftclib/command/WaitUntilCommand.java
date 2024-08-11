@@ -10,13 +10,11 @@ package com.arcrobotics.ftclib.command;
 import java.util.function.BooleanSupplier;
 
 /**
- * A command that does nothing but ends after a specified condition. Useful for
- * CommandGroups.
+ * A command that does nothing but ends after a specified condition. Useful for CommandGroups.
  *
  * @author Jackson
  */
 public class WaitUntilCommand extends CommandBase {
-
     private final BooleanSupplier m_condition;
 
     /**
@@ -37,5 +35,4 @@ public class WaitUntilCommand extends CommandBase {
     public boolean runsWhenDisabled() {
         return true;
     }
-
 }

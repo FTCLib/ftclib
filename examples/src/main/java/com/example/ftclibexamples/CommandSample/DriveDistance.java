@@ -3,7 +3,6 @@ package com.example.ftclibexamples.CommandSample;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 public class DriveDistance extends CommandBase {
-
     private final DriveSubsystem m_drive;
     private final double m_distance;
     private final double m_speed;
@@ -12,8 +11,8 @@ public class DriveDistance extends CommandBase {
      * Creates a new DriveDistance.
      *
      * @param inches The number of inches the robot will drive
-     * @param speed  The speed at which the robot will drive
-     * @param drive  The drive subsystem on which this command will run
+     * @param speed The speed at which the robot will drive
+     * @param drive The drive subsystem on which this command will run
      */
     public DriveDistance(double inches, double speed, DriveSubsystem drive) {
         m_distance = inches;
@@ -32,10 +31,8 @@ public class DriveDistance extends CommandBase {
         m_drive.drive(0, 0);
     }
 
-
     @Override
     public boolean isFinished() {
         return Math.abs(m_drive.getAverageEncoderDistance()) >= m_distance;
     }
-
 }

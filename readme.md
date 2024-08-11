@@ -23,17 +23,17 @@ FTCLib documentation - <https://ftclib.gitbook.io/ftclib>
 2. Go to your `build.common.gradle` file in your project.
 
     ![BuildCommonGradle](https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/images/build-common-gradle.png)
-    
+
 3. Add the following to the `repositories` section at the bottom of the file.
 
    ```groovy
    mavenCentral()
    ```
-    
-4. Open the `build.gradle` file in your TeamCode module. 
-    
+
+4. Open the `build.gradle` file in your TeamCode module.
+
     ![TeamCodeGradle](https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/images/teamcode-gradle.png)
-    
+
 5. Go to the bottom of the file, and add the following.
 
     ```groovy
@@ -69,14 +69,14 @@ compileOptions {
     targetCompatibility JavaVersion.VERSION_1_8
 }
 ```
-    
+
 8. Perform a gradle sync to implement your changes.
 
     ![GradleSync](https://github.com/OpenFTC/EasyOpenCV/blob/master/doc/images/gradle-sync.png)
 
 
 __NOTE:__ If your module has a few dependencies, you might have an error related to multidex on building the project.
-This is caused by the project exceeding the limit for imports enforced by Android Studio. To solve this, 
+This is caused by the project exceeding the limit for imports enforced by Android Studio. To solve this,
 add `multiDexEnabled true` to the below location inside the `build.common.gradle` file.
 
 ```groovy

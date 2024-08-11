@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.kinematics.Odometry;
 
 public class OdometrySubsystem extends SubsystemBase {
-
     protected Odometry m_odometry;
 
     /**
@@ -20,19 +19,14 @@ public class OdometrySubsystem extends SubsystemBase {
         return m_odometry.getPose();
     }
 
-    /**
-     * Call this at the end of every loop
-     */
+    /** Call this at the end of every loop */
     public void update() {
         m_odometry.updatePose();
     }
 
-    /**
-     * Updates the pose every cycle
-     */
+    /** Updates the pose every cycle */
     @Override
     public void periodic() {
         m_odometry.updatePose();
     }
-
 }

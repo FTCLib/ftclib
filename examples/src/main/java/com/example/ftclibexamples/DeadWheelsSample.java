@@ -10,16 +10,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
- * This sample shows how to use dead wheels with external encoders
- * paired with motors that don't require encoders.
- * In this sample, we will use the drive motors' encoder
- * ports as they are not needed due to not using the drive encoders.
- * The external encoders we are using are REV through-bore.
+ * This sample shows how to use dead wheels with external encoders paired with motors that don't
+ * require encoders. In this sample, we will use the drive motors' encoder ports as they are not
+ * needed due to not using the drive encoders. The external encoders we are using are REV
+ * through-bore.
  */
 @Autonomous
 @Disabled
 public class DeadWheelsSample extends LinearOpMode {
-
     // The lateral distance between the left and right odometers
     // is called the trackwidth. This is very important for
     // determining angle for turning approximations
@@ -65,12 +63,13 @@ public class DeadWheelsSample extends LinearOpMode {
 
         rightOdometer.setDirection(Motor.Direction.REVERSE);
 
-        odometry = new HolonomicOdometry(
-                leftOdometer::getDistance,
-                rightOdometer::getDistance,
-                centerOdometer::getDistance,
-                TRACKWIDTH, CENTER_WHEEL_OFFSET
-        );
+        odometry =
+                new HolonomicOdometry(
+                        leftOdometer::getDistance,
+                        rightOdometer::getDistance,
+                        centerOdometer::getDistance,
+                        TRACKWIDTH,
+                        CENTER_WHEEL_OFFSET);
 
         waitForStart();
 
@@ -80,5 +79,4 @@ public class DeadWheelsSample extends LinearOpMode {
             odometry.updatePose(); // update the position
         }
     }
-
 }

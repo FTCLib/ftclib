@@ -10,7 +10,6 @@ import com.arcrobotics.ftclib.purepursuit.Waypoint;
  * @see Path
  */
 public class PurePursuitCommand extends CommandBase {
-
     private MecanumDrive m_drive;
     private OdometrySubsystem m_odometry;
     private Path m_path;
@@ -38,13 +37,15 @@ public class PurePursuitCommand extends CommandBase {
         m_path.remove(index);
     }
 
-    /**
-     * Call this in a loop
-     */
+    /** Call this in a loop */
     @Override
     public void execute() {
         Pose2d robotPose = m_odometry.getPose();
-        double[] motorSpeeds = m_path.loop(robotPose.getTranslation().getX(), robotPose.getTranslation().getY(), robotPose.getHeading());
+        double[] motorSpeeds =
+                m_path.loop(
+                        robotPose.getTranslation().getX(),
+                        robotPose.getTranslation().getY(),
+                        robotPose.getHeading());
         m_drive.driveRobotCentric(motorSpeeds[0], motorSpeeds[1], motorSpeeds[2]);
     }
 
@@ -57,5 +58,4 @@ public class PurePursuitCommand extends CommandBase {
     public boolean isFinished() {
         return m_path.isFinished();
     }
-
 }

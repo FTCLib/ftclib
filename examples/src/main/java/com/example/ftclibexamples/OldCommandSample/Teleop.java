@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @Disabled
 @TeleOp(name = "Command-Based Teleop Sample", group = "Command")
 public class Teleop extends OpMode {
-
     public static final double kP = 0.003;
     public static final double kI = 0.12;
     public static final double kD = 0.053;
@@ -22,9 +21,7 @@ public class Teleop extends OpMode {
     private SimpleLinearLift lift;
     private MotorEx liftMotor;
 
-    public static PIDController pid = new PIDController(
-            kP, kI, kD
-    );
+    public static PIDController pid = new PIDController(kP, kI, kD);
 
     @Override
     public void init() {

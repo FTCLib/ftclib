@@ -22,16 +22,15 @@ package com.example.ftclibexamples.VisionSample;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 /**
- * This is an example of how to use the ExamplePipeLine
- * For more examples such as using a webcam and switching between different cameras
- * visit https://github.com/OpenFTC/EasyOpenCV/tree/master/examples/src/main/java/org/openftc/easyopencv/examples
+ * This is an example of how to use the ExamplePipeLine For more examples such as using a webcam and
+ * switching between different cameras visit
+ * https://github.com/OpenFTC/EasyOpenCV/tree/master/examples/src/main/java/org/openftc/easyopencv/examples
  */
 @TeleOp
 public class InternalCameraExample extends LinearOpMode {
@@ -48,11 +47,18 @@ public class InternalCameraExample extends LinearOpMode {
          * the RC phone). If no camera monitor is desired, use the alternate
          * single-parameter constructor instead (commented out below)
          */
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        int cameraMonitorViewId =
+                hardwareMap
+                        .appContext
+                        .getResources()
+                        .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam =
+                OpenCvCameraFactory.getInstance()
+                        .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
         // OR...  Do Not Activate the Camera Monitor View
-        //phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
+        // phoneCam =
+        // OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
 
         /*
          * Open the connection to the camera device
@@ -126,7 +132,7 @@ public class InternalCameraExample extends LinearOpMode {
                  * the above "important note".
                  */
                 phoneCam.stopStreaming();
-                //webcam.closeCameraDevice();
+                // webcam.closeCameraDevice();
             }
 
             /*
@@ -155,5 +161,4 @@ public class InternalCameraExample extends LinearOpMode {
             sleep(100);
         }
     }
-
 }

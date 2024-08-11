@@ -1,6 +1,5 @@
 package com.arcrobotics.ftclib.command;
 
-
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.ProfiledPIDController;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
@@ -11,29 +10,24 @@ import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveMotorVolta
 import com.arcrobotics.ftclib.kinematics.wpilibkinematics.MecanumDriveWheelSpeeds;
 import com.arcrobotics.ftclib.trajectory.Trajectory;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * A command that uses two PID controllers ({@link PIDController}) and a
- * ProfiledPIDController ({@link ProfiledPIDController}) to follow a trajectory
- * {@link Trajectory} with a mecanum drive.
+ * A command that uses two PID controllers ({@link PIDController}) and a ProfiledPIDController
+ * ({@link ProfiledPIDController}) to follow a trajectory {@link Trajectory} with a mecanum drive.
  *
- * <p>The command handles trajectory-following,
- * Velocity PID calculations, and feedforwards internally. This
- * is intended to be a more-or-less "complete solution" that can be used by teams without a great
- * deal of controls expertise.
+ * <p>The command handles trajectory-following, Velocity PID calculations, and feedforwards
+ * internally. This is intended to be a more-or-less "complete solution" that can be used by teams
+ * without a great deal of controls expertise.
  *
- * <p>Advanced teams seeking more flexibility (for example, those who wish to use the onboard
- * PID functionality of a "smart" motor controller) may use the secondary constructor that omits
- * the PID and feedforward functionality, returning only the raw wheel speeds from the PID
- * controllers.
+ * <p>Advanced teams seeking more flexibility (for example, those who wish to use the onboard PID
+ * functionality of a "smart" motor controller) may use the secondary constructor that omits the PID
+ * and feedforward functionality, returning only the raw wheel speeds from the PID controllers.
  *
- * <p>The robot angle controller does not follow the angle given by
- * the trajectory but rather goes to the angle given in the final state of the trajectory.
+ * <p>The robot angle controller does not follow the angle given by the trajectory but rather goes
+ * to the angle given in the final state of the trajectory.
  */
-
 @SuppressWarnings({"PMD.TooManyFields", "MemberName"})
 public class MecanumControllerCommand extends CommandBase {
     private final ElapsedTime m_timer;
@@ -69,48 +63,39 @@ public class MecanumControllerCommand extends CommandBase {
      * <p>Note 2: The rotation controller will calculate the rotation based on the final pose in the
      * trajectory, not the poses at each time step.
      *
-     * @param trajectory                      The trajectory to follow.
-     * @param pose                            A function that supplies the robot pose - use one of
-     *                                        the odometry classes to provide this.
-     * @param feedforward                     The feedforward to use for the drivetrain.
-     * @param kinematics                      The kinematics for the robot drivetrain.
-     * @param xController                     The Trajectory Tracker PID controller
-     *                                        for the robot's x position.
-     * @param yController                     The Trajectory Tracker PID controller
-     *                                        for the robot's y position.
-     * @param thetaController                 The Trajectory Tracker PID controller
-     *                                        for angle for the robot.
+     * @param trajectory The trajectory to follow.
+     * @param pose A function that supplies the robot pose - use one of the odometry classes to
+     *     provide this.
+     * @param feedforward The feedforward to use for the drivetrain.
+     * @param kinematics The kinematics for the robot drivetrain.
+     * @param xController The Trajectory Tracker PID controller for the robot's x position.
+     * @param yController The Trajectory Tracker PID controller for the robot's y position.
+     * @param thetaController The Trajectory Tracker PID controller for angle for the robot.
      * @param maxWheelVelocityMetersPerSecond The maximum velocity of a drivetrain wheel.
-     * @param frontLeftController             The front left wheel velocity PID.
-     * @param rearLeftController              The rear left wheel velocity PID.
-     * @param frontRightController            The front right wheel velocity PID.
-     * @param rearRightController             The rear right wheel velocity PID.
-     * @param currentWheelSpeeds              A MecanumDriveWheelSpeeds object containing
-     *                                        the current wheel speeds.
-     * @param outputDriveVoltages             A MecanumDriveMotorVoltages object containing
-     *                                        the output motor voltages.
+     * @param frontLeftController The front left wheel velocity PID.
+     * @param rearLeftController The rear left wheel velocity PID.
+     * @param frontRightController The front right wheel velocity PID.
+     * @param rearRightController The rear right wheel velocity PID.
+     * @param currentWheelSpeeds A MecanumDriveWheelSpeeds object containing the current wheel speeds.
+     * @param outputDriveVoltages A MecanumDriveMotorVoltages object containing the output motor
+     *     voltages.
      */
-
     @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterName"})
-    public MecanumControllerCommand(Trajectory trajectory,
-                                    Supplier<Pose2d> pose,
-                                    SimpleMotorFeedforward feedforward,
-                                    MecanumDriveKinematics kinematics,
-
-                                    PIDController xController,
-                                    PIDController yController,
-                                    ProfiledPIDController thetaController,
-
-                                    double maxWheelVelocityMetersPerSecond,
-
-                                    PIDController frontLeftController,
-                                    PIDController rearLeftController,
-                                    PIDController frontRightController,
-                                    PIDController rearRightController,
-
-                                    Supplier<MecanumDriveWheelSpeeds> currentWheelSpeeds,
-
-                                    Consumer<MecanumDriveMotorVoltages> outputDriveVoltages) {
+    public MecanumControllerCommand(
+            Trajectory trajectory,
+            Supplier<Pose2d> pose,
+            SimpleMotorFeedforward feedforward,
+            MecanumDriveKinematics kinematics,
+            PIDController xController,
+            PIDController yController,
+            ProfiledPIDController thetaController,
+            double maxWheelVelocityMetersPerSecond,
+            PIDController frontLeftController,
+            PIDController rearLeftController,
+            PIDController frontRightController,
+            PIDController rearRightController,
+            Supplier<MecanumDriveWheelSpeeds> currentWheelSpeeds,
+            Consumer<MecanumDriveMotorVoltages> outputDriveVoltages) {
         m_trajectory = trajectory;
         m_pose = pose;
         m_feedforward = feedforward;
@@ -137,7 +122,6 @@ public class MecanumControllerCommand extends CommandBase {
 
         m_usePID = true;
 
-
         m_timer = new ElapsedTime();
     }
 
@@ -148,36 +132,29 @@ public class MecanumControllerCommand extends CommandBase {
      * <p>Note: The controllers will *not* set the outputVolts to zero upon completion of the path -
      * this is left to the user, since it is not appropriate for paths with non-stationary end-states.
      *
-     * <p>Note2: The rotation controller will calculate the rotation based on the final pose
-     * in the trajectory, not the poses at each time step.
+     * <p>Note2: The rotation controller will calculate the rotation based on the final pose in the
+     * trajectory, not the poses at each time step.
      *
-     * @param trajectory                      The trajectory to follow.
-     * @param pose                            A function that supplies the robot pose - use one of
-     *                                        the odometry classes to provide this.
-     * @param kinematics                      The kinematics for the robot drivetrain.
-     * @param xController                     The Trajectory Tracker PID controller
-     *                                        for the robot's x position.
-     * @param yController                     The Trajectory Tracker PID controller
-     *                                        for the robot's y position.
-     * @param thetaController                 The Trajectory Tracker PID controller
-     *                                        for angle for the robot.
+     * @param trajectory The trajectory to follow.
+     * @param pose A function that supplies the robot pose - use one of the odometry classes to
+     *     provide this.
+     * @param kinematics The kinematics for the robot drivetrain.
+     * @param xController The Trajectory Tracker PID controller for the robot's x position.
+     * @param yController The Trajectory Tracker PID controller for the robot's y position.
+     * @param thetaController The Trajectory Tracker PID controller for angle for the robot.
      * @param maxWheelVelocityMetersPerSecond The maximum velocity of a drivetrain wheel.
-     * @param outputWheelSpeeds               A MecanumDriveWheelSpeeds object containing
-     *                                        the output wheel speeds.
+     * @param outputWheelSpeeds A MecanumDriveWheelSpeeds object containing the output wheel speeds.
      */
-
     @SuppressWarnings({"PMD.ExcessiveParameterList", "ParameterName"})
-    public MecanumControllerCommand(Trajectory trajectory,
-                                    Supplier<Pose2d> pose,
-                                    MecanumDriveKinematics kinematics,
-                                    PIDController xController,
-                                    PIDController yController,
-                                    ProfiledPIDController thetaController,
-
-                                    double maxWheelVelocityMetersPerSecond,
-
-                                    Consumer<MecanumDriveWheelSpeeds> outputWheelSpeeds) {
-
+    public MecanumControllerCommand(
+            Trajectory trajectory,
+            Supplier<Pose2d> pose,
+            MecanumDriveKinematics kinematics,
+            PIDController xController,
+            PIDController yController,
+            ProfiledPIDController thetaController,
+            double maxWheelVelocityMetersPerSecond,
+            Consumer<MecanumDriveWheelSpeeds> outputWheelSpeeds) {
         m_trajectory = trajectory;
         m_pose = pose;
         m_feedforward = new SimpleMotorFeedforward(0, 0, 0);
@@ -189,7 +166,6 @@ public class MecanumControllerCommand extends CommandBase {
         m_thetaController = thetaController;
 
         m_maxWheelVelocityMetersPerSecond = maxWheelVelocityMetersPerSecond;
-
 
         m_frontLeftController = null;
         m_rearLeftController = null;
@@ -214,13 +190,13 @@ public class MecanumControllerCommand extends CommandBase {
         // Sample final pose to get robot rotation
         m_finalPose = m_trajectory.sample(m_trajectory.getTotalTimeSeconds()).poseMeters;
 
-        double initialXVelocity = initialState.velocityMetersPerSecond
-                * initialState.poseMeters.getRotation().getCos();
-        double initialYVelocity = initialState.velocityMetersPerSecond
-                * initialState.poseMeters.getRotation().getSin();
+        double initialXVelocity =
+                initialState.velocityMetersPerSecond * initialState.poseMeters.getRotation().getCos();
+        double initialYVelocity =
+                initialState.velocityMetersPerSecond * initialState.poseMeters.getRotation().getSin();
 
-        m_prevSpeeds = m_kinematics.toWheelSpeeds(
-                new ChassisSpeeds(initialXVelocity, initialYVelocity, 0.0));
+        m_prevSpeeds =
+                m_kinematics.toWheelSpeeds(new ChassisSpeeds(initialXVelocity, initialYVelocity, 0.0));
 
         // Resets and starts the timer
         m_timer.reset();
@@ -237,19 +213,19 @@ public class MecanumControllerCommand extends CommandBase {
 
         Pose2d poseError = desiredPose.relativeTo(m_pose.get());
 
-        double targetXVel = m_xController.calculate(
-                m_pose.get().getTranslation().getX(),
-                desiredPose.getTranslation().getX());
+        double targetXVel =
+                m_xController.calculate(
+                        m_pose.get().getTranslation().getX(), desiredPose.getTranslation().getX());
 
-        double targetYVel = m_yController.calculate(
-                m_pose.get().getTranslation().getY(),
-                desiredPose.getTranslation().getY());
+        double targetYVel =
+                m_yController.calculate(
+                        m_pose.get().getTranslation().getY(), desiredPose.getTranslation().getY());
 
         // The robot will go to the desired rotation of the final pose in the trajectory,
         // not following the poses at individual states.
-        double targetAngularVel = m_thetaController.calculate(
-                m_pose.get().getRotation().getRadians(),
-                m_finalPose.getRotation().getRadians());
+        double targetAngularVel =
+                m_thetaController.calculate(
+                        m_pose.get().getRotation().getRadians(), m_finalPose.getRotation().getRadians());
 
         double vRef = desiredState.velocityMetersPerSecond;
 
@@ -273,46 +249,57 @@ public class MecanumControllerCommand extends CommandBase {
         double rearRightOutput;
 
         if (m_usePID) {
-            final double frontLeftFeedforward = m_feedforward.calculate(frontLeftSpeedSetpoint,
-                    (frontLeftSpeedSetpoint - m_prevSpeeds.frontLeftMetersPerSecond) / dt);
+            final double frontLeftFeedforward =
+                    m_feedforward.calculate(
+                            frontLeftSpeedSetpoint,
+                            (frontLeftSpeedSetpoint - m_prevSpeeds.frontLeftMetersPerSecond) / dt);
 
-            final double rearLeftFeedforward = m_feedforward.calculate(rearLeftSpeedSetpoint,
-                    (rearLeftSpeedSetpoint - m_prevSpeeds.rearLeftMetersPerSecond) / dt);
+            final double rearLeftFeedforward =
+                    m_feedforward.calculate(
+                            rearLeftSpeedSetpoint,
+                            (rearLeftSpeedSetpoint - m_prevSpeeds.rearLeftMetersPerSecond) / dt);
 
-            final double frontRightFeedforward = m_feedforward.calculate(frontRightSpeedSetpoint,
-                    (frontRightSpeedSetpoint - m_prevSpeeds.frontRightMetersPerSecond) / dt);
+            final double frontRightFeedforward =
+                    m_feedforward.calculate(
+                            frontRightSpeedSetpoint,
+                            (frontRightSpeedSetpoint - m_prevSpeeds.frontRightMetersPerSecond) / dt);
 
-            final double rearRightFeedforward = m_feedforward.calculate(rearRightSpeedSetpoint,
-                    (rearRightSpeedSetpoint - m_prevSpeeds.rearRightMetersPerSecond) / dt);
+            final double rearRightFeedforward =
+                    m_feedforward.calculate(
+                            rearRightSpeedSetpoint,
+                            (rearRightSpeedSetpoint - m_prevSpeeds.rearRightMetersPerSecond) / dt);
 
-            frontLeftOutput = frontLeftFeedforward + m_frontLeftController.calculate(
-                    m_currentWheelSpeeds.get().frontLeftMetersPerSecond,
-                    frontLeftSpeedSetpoint);
+            frontLeftOutput =
+                    frontLeftFeedforward
+                            + m_frontLeftController.calculate(
+                                    m_currentWheelSpeeds.get().frontLeftMetersPerSecond, frontLeftSpeedSetpoint);
 
-            rearLeftOutput = rearLeftFeedforward + m_rearLeftController.calculate(
-                    m_currentWheelSpeeds.get().rearLeftMetersPerSecond,
-                    rearLeftSpeedSetpoint);
+            rearLeftOutput =
+                    rearLeftFeedforward
+                            + m_rearLeftController.calculate(
+                                    m_currentWheelSpeeds.get().rearLeftMetersPerSecond, rearLeftSpeedSetpoint);
 
-            frontRightOutput = frontRightFeedforward + m_frontRightController.calculate(
-                    m_currentWheelSpeeds.get().frontRightMetersPerSecond,
-                    frontRightSpeedSetpoint);
+            frontRightOutput =
+                    frontRightFeedforward
+                            + m_frontRightController.calculate(
+                                    m_currentWheelSpeeds.get().frontRightMetersPerSecond, frontRightSpeedSetpoint);
 
-            rearRightOutput = rearRightFeedforward + m_rearRightController.calculate(
-                    m_currentWheelSpeeds.get().rearRightMetersPerSecond,
-                    rearRightSpeedSetpoint);
+            rearRightOutput =
+                    rearRightFeedforward
+                            + m_rearRightController.calculate(
+                                    m_currentWheelSpeeds.get().rearRightMetersPerSecond, rearRightSpeedSetpoint);
 
-            m_outputDriveVoltages.accept(new MecanumDriveMotorVoltages(
-                    frontLeftOutput,
-                    frontRightOutput,
-                    rearLeftOutput,
-                    rearRightOutput));
+            m_outputDriveVoltages.accept(
+                    new MecanumDriveMotorVoltages(
+                            frontLeftOutput, frontRightOutput, rearLeftOutput, rearRightOutput));
 
         } else {
-            m_outputWheelSpeeds.accept(new MecanumDriveWheelSpeeds(
-                    frontLeftSpeedSetpoint,
-                    frontRightSpeedSetpoint,
-                    rearLeftSpeedSetpoint,
-                    rearRightSpeedSetpoint));
+            m_outputWheelSpeeds.accept(
+                    new MecanumDriveWheelSpeeds(
+                            frontLeftSpeedSetpoint,
+                            frontRightSpeedSetpoint,
+                            rearLeftSpeedSetpoint,
+                            rearRightSpeedSetpoint));
         }
 
         m_prevTime = curTime;

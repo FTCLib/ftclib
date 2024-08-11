@@ -7,9 +7,7 @@
 
 package com.arcrobotics.ftclib.command;
 
-/**
- * A command that prints a string when initialized.
- */
+/** A command that prints a string when initialized. */
 public class PrintCommand extends InstantCommand {
     /**
      * Creates a new a PrintCommand.

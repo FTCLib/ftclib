@@ -1,20 +1,16 @@
 package com.arcrobotics.ftclib.util;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import java.util.concurrent.TimeUnit;
 
-/**
- * Class for a time related items.
- */
+/** Class for a time related items. */
 public class Timing {
-
     /**
-     * Class for a timer. This can be used for checking if a duration has passed, only continuing
-     * if the timer has finished, and so forth.
-     * <p>
-     * A more simple version of a timer better suited for quick uses rather than an
-     * {@link ElapsedTime} object.
+     * Class for a timer. This can be used for checking if a duration has passed, only continuing if
+     * the timer has finished, and so forth.
+     *
+     * <p>A more simple version of a timer better suited for quick uses rather than an {@link
+     * ElapsedTime} object.
      */
     public static class Timer {
         private ElapsedTime time;
@@ -27,7 +23,7 @@ public class Timing {
          * Creates a new timer object.
          *
          * @param timerLength The length of the timer, in the units specified by unit.
-         * @param unit        The unit of timerLength.
+         * @param unit The unit of timerLength.
          */
         public Timer(long timerLength, TimeUnit unit) {
             this.timerLength = timerLength;
@@ -45,9 +41,7 @@ public class Timing {
             this(timerLength, TimeUnit.SECONDS);
         }
 
-        /**
-         * Starts this timer.
-         */
+        /** Starts this timer. */
         public void start() {
             time.reset();
             pauseTime = 0;
@@ -55,7 +49,8 @@ public class Timing {
         }
 
         /**
-         * Pauses this timer. While the timer is paused, elapsedTime() and remainingTime() will not change.
+         * Pauses this timer. While the timer is paused, elapsedTime() and remainingTime() will not
+         * change.
          */
         public void pause() {
             if (timerOn) {
@@ -64,12 +59,11 @@ public class Timing {
             }
         }
 
-        /**
-         * Resumes this timer if it is running and paused.
-         */
+        /** Resumes this timer if it is running and paused. */
         public void resume() {
             if (!timerOn) {
-                // we start the timer with a time in the past, since we're starting in the middle of the timer
+                // we start the timer with a time in the past, since we're starting in the middle of the
+                // timer
                 time = new ElapsedTime(System.nanoTime() - pauseTime);
                 timerOn = true;
             }
@@ -78,9 +72,8 @@ public class Timing {
         /**
          * Get the elapsed time since this time was started.
          *
-         * @return The elapsed time, in the units specified in the constructor.
-         * If the timer was not started, return 0.
-         * If the timer is paused, return the time at which the timer was paused.
+         * @return The elapsed time, in the units specified in the constructor. If the timer was not
+         *     started, return 0. If the timer is paused, return the time at which the timer was paused.
          */
         public long elapsedTime() {
             if (timerOn) return time.time(unit);
@@ -90,9 +83,9 @@ public class Timing {
         /**
          * Get the remaining time until this timer is done.
          *
-         * @return The remaining time, in the units specified in the constructor.
-         * If it was not started, returns the timer length.
-         * If it was paused, return the remaining time at the time the timer was paused.
+         * @return The remaining time, in the units specified in the constructor. If it was not started,
+         *     returns the timer length. If it was paused, return the remaining time at the time the
+         *     timer was paused.
          */
         public long remainingTime() {
             return timerLength - elapsedTime();
@@ -101,7 +94,8 @@ public class Timing {
         /**
          * Check if this timer has finished.
          *
-         * @return True if at least timerLength of unpaused time has elapsed since the start of this timer. False otherwise.
+         * @return True if at least timerLength of unpaused time has elapsed since the start of this
+         *     timer. False otherwise.
          */
         public boolean done() {
             return elapsedTime() >= timerLength;
@@ -118,11 +112,10 @@ public class Timing {
     }
 
     /**
-     * Very simple class for a refresh rate timer. Can be used to limit hardware writing/reading,
-     * or other fast-time cases. Only uses milliseconds. Starts counting on creation, can be reset.
+     * Very simple class for a refresh rate timer. Can be used to limit hardware writing/reading, or
+     * other fast-time cases. Only uses milliseconds. Starts counting on creation, can be reset.
      */
     public class Rate {
-
         private ElapsedTime time;
         private long rate;
 
@@ -140,7 +133,5 @@ public class Timing {
             time.reset();
             return done;
         }
-
     }
-
 }

@@ -1,7 +1,6 @@
 package com.example.ftclibexamples.OldCommandSample;
 
 public class PIDLiftController {
-
     private SimpleLinearLift m_lift;
 
     public final int STAGE_CONSTANT;
@@ -34,5 +33,4 @@ public class PIDLiftController {
     public void power(double speed) {
         m_lift.moveLift(speed);
     }
-
 }

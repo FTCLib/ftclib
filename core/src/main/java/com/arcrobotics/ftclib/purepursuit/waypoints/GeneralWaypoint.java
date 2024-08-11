@@ -7,17 +7,17 @@ import com.arcrobotics.ftclib.purepursuit.Waypoint;
 import com.arcrobotics.ftclib.purepursuit.types.WaypointType;
 
 /**
- * A general waypoint is the most common type of Waypoint. This waypoint acts like a
- * conventional pure pursuit waypoint, with the robot simply traversing it. Most other
- * types of waypoints are sub classes of this.
+ * A general waypoint is the most common type of Waypoint. This waypoint acts like a conventional
+ * pure pursuit waypoint, with the robot simply traversing it. Most other types of waypoints are sub
+ * classes of this.
  *
  * @author Michael Baljet, Team 14470
  * @version 1.1
  * @see Waypoint
  */
 public class GeneralWaypoint extends Pose2d implements Waypoint {
-
-    // If the robot moves towards this waypoint for longer than the timeout period, the path is aborted.
+    // If the robot moves towards this waypoint for longer than the timeout period, the path is
+    // aborted.
     private long timeoutMiliseconds;
 
     // Speed at which the robot moves, within the range [0, 1].
@@ -36,9 +36,7 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
     // True if this waypoint is to inherit the previous node's configuration.
     private boolean copyMode;
 
-    /**
-     * Constructs a GeneralWaypoint. All values are set to their default.
-     */
+    /** Constructs a GeneralWaypoint. All values are set to their default. */
     public GeneralWaypoint() {
         // Set values to default.
         movementSpeed = 0;
@@ -57,13 +55,21 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
     /**
      * Constructs a GeneralWaypoint with the provided values.
      *
-     * @param translation   The (x, y) translation of this waypoint.
-     * @param rotation      The rotation (preferred angle) of this waypoint.
-     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed     The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius  The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
+     * @param translation The (x, y) translation of this waypoint.
+     * @param rotation The rotation (preferred angle) of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
      */
-    public GeneralWaypoint(Translation2d translation, Rotation2d rotation, double movementSpeed, double turnSpeed, double followRadius) {
+    public GeneralWaypoint(
+            Translation2d translation,
+            Rotation2d rotation,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius) {
         super(translation, rotation);
         this.movementSpeed = normalizeSpeed(movementSpeed);
         this.turnSpeed = normalizeSpeed(turnSpeed);
@@ -77,10 +83,13 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
     /**
      * Constructs a GeneralWaypoint with the provided values.
      *
-     * @param pose          Position and rotation (preferred angle) of this waypoint.
-     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed     The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius  The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
+     * @param pose Position and rotation (preferred angle) of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
      */
     public GeneralWaypoint(Pose2d pose, double movementSpeed, double turnSpeed, double followRadius) {
         super(pose.getTranslation(), pose.getRotation());
@@ -96,13 +105,17 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
     /**
      * Constructs a GeneralWaypoint with the provided values.
      *
-     * @param x             The x position of this waypoint.
-     * @param y             The y position of this waypoint.
-     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed     The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius  The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
+     * @param x The x position of this waypoint.
+     * @param y The y position of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
      */
-    public GeneralWaypoint(double x, double y, double movementSpeed, double turnSpeed, double followRadius) {
+    public GeneralWaypoint(
+            double x, double y, double movementSpeed, double turnSpeed, double followRadius) {
         super(x, y, new Rotation2d(0));
         this.movementSpeed = normalizeSpeed(movementSpeed);
         this.turnSpeed = normalizeSpeed(turnSpeed);
@@ -116,14 +129,23 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
     /**
      * Constructs a GeneralWaypoint with the provided values.
      *
-     * @param x               The x position of this waypoint.
-     * @param y               The y position of this waypoint.
+     * @param x The x position of this waypoint.
+     * @param y The y position of this waypoint.
      * @param rotationRadians The rotation (preferred angle) of this waypoint (in radians).
-     * @param movementSpeed   The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed       The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius    The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
      */
-    public GeneralWaypoint(double x, double y, double rotationRadians, double movementSpeed, double turnSpeed, double followRadius) {
+    public GeneralWaypoint(
+            double x,
+            double y,
+            double rotationRadians,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius) {
         super(x, y, new Rotation2d(rotationRadians));
         this.movementSpeed = normalizeSpeed(movementSpeed);
         this.turnSpeed = normalizeSpeed(turnSpeed);
@@ -249,9 +271,7 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
         return this;
     }
 
-    /**
-     * Resets this waypoint. This is called by Path.
-     */
+    /** Resets this waypoint. This is called by Path. */
     public void reset() {
         // GeneralWaypoints don't have anything to reset.
     }
@@ -263,10 +283,8 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
      * @return Normalized value.
      */
     protected double normalizeSpeed(double raw) {
-        if (raw > 1)
-            return 1;
-        if (raw < 0)
-            return 0;
+        if (raw > 1) return 1;
+        if (raw < 0) return 0;
         return raw;
     }
 
@@ -276,19 +294,21 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
      * @param waypoint Waypoint to copy.
      */
     public void inherit(Waypoint waypoint) {
-        if (!copyMode)
-            return;
+        if (!copyMode) return;
         if (!(waypoint instanceof GeneralWaypoint))
-            throw new IllegalArgumentException("A " + getType() + " waypoint cannot inherit the configuration of a " + waypoint.getType() + " waypoint.");
+            throw new IllegalArgumentException(
+                    "A "
+                            + getType()
+                            + " waypoint cannot inherit the configuration of a "
+                            + waypoint.getType()
+                            + " waypoint.");
         GeneralWaypoint w = (GeneralWaypoint) waypoint;
         setMovementSpeed(w.getMovementSpeed());
         setTurnSpeed(w.getTurnSpeed());
         setFollowRadius(w.getFollowRadius());
         setTimeout(w.getTimeout());
-        if (w.usingPreferredAngle())
-            setPreferredAngle(w.getPreferredAngle());
-        else
-            usePreferredAngle = false;
+        if (w.usingPreferredAngle()) setPreferredAngle(w.getPreferredAngle());
+        else usePreferredAngle = false;
     }
 
     @Override
@@ -313,7 +333,7 @@ public class GeneralWaypoint extends Pose2d implements Waypoint {
 
     @Override
     public String toString() {
-        return String.format("GeneralWaypoint(%s, %s)", getTranslation().getX(), getTranslation().getY());
+        return String.format(
+                "GeneralWaypoint(%s, %s)", getTranslation().getX(), getTranslation().getY());
     }
-
 }

@@ -3,7 +3,6 @@ package com.arcrobotics.ftclib.vision;
 import org.opencv.core.Mat;
 
 public class UGAdvancedHighGoalPipeline extends UGAngleHighGoalPipeline {
-
     private double centerOfLogoHeight;
     private double cameraHeight;
     private double cameraPitchOffset;
@@ -13,15 +12,21 @@ public class UGAdvancedHighGoalPipeline extends UGAngleHighGoalPipeline {
     private double puckSpacing = 7.5;
 
     public enum Powershot {
-        LeftShot, CenterShot, RightShot
+        LeftShot,
+        CenterShot,
+        RightShot
     }
 
     public UGAdvancedHighGoalPipeline(double fov, double cameraHeight) {
-        this(fov, cameraHeight, 40.625, 0, 0);  // inches
+        this(fov, cameraHeight, 40.625, 0, 0); // inches
     }
 
-    public UGAdvancedHighGoalPipeline(double fov, double cameraHeight, double centerOfLogoHeight,
-                                      double cameraPitchOffset, double cameraYawOffset) {
+    public UGAdvancedHighGoalPipeline(
+            double fov,
+            double cameraHeight,
+            double centerOfLogoHeight,
+            double cameraPitchOffset,
+            double cameraYawOffset) {
         super(fov);
         this.cameraHeight = cameraHeight;
         this.centerOfLogoHeight = centerOfLogoHeight;
@@ -72,19 +77,22 @@ public class UGAdvancedHighGoalPipeline extends UGAngleHighGoalPipeline {
         double distanceFromWallToGoal = Math.tan(Math.toRadians(angle)) * getDistanceToGoalWall(color);
 
         // If robot is between Powershot and Highgoal
-        if (Math.abs(offset) > Math.abs(distanceFromWallToGoal) && (offset * distanceFromWallToGoal < 0)) {
-            return Math.toDegrees(Math.atan((offset + distanceFromWallToGoal) / getDistanceToGoalWall(color)));
+        if (Math.abs(offset) > Math.abs(distanceFromWallToGoal)
+                && (offset * distanceFromWallToGoal < 0)) {
+            return Math.toDegrees(
+                    Math.atan((offset + distanceFromWallToGoal) / getDistanceToGoalWall(color)));
         }
 
         if (angle > 0) {
-            return Math.toDegrees(Math.atan((offset + distanceFromWallToGoal) / getDistanceToGoalWall(color)));
+            return Math.toDegrees(
+                    Math.atan((offset + distanceFromWallToGoal) / getDistanceToGoalWall(color)));
         } else {
-            return Math.toDegrees(Math.atan((offset - distanceFromWallToGoal) / getDistanceToGoalWall(color)));
+            return Math.toDegrees(
+                    Math.atan((offset - distanceFromWallToGoal) / getDistanceToGoalWall(color)));
         }
     }
 
     public double getPowerShotDistance(Target color, Powershot shot) {
         return getDistanceToGoalWall(color) / Math.cos(Math.toRadians(getPowershotAngle(color, shot)));
     }
-
 }

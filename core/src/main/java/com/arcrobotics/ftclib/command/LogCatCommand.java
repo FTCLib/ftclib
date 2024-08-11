@@ -9,11 +9,8 @@ package com.arcrobotics.ftclib.command;
 
 import android.util.Log;
 
-/**
- * A command that logs a message when initialized.
- */
+/** A command that logs a message when initialized. */
 public class LogCatCommand extends InstantCommand {
-
     public LogCatCommand(String tag, String message, int priority) {
         super(() -> Log.println(priority, tag, message));
     }
@@ -26,7 +23,6 @@ public class LogCatCommand extends InstantCommand {
         this("LogCatCommand", message);
     }
 
-
     public LogCatCommand(String message, int priority) {
         this("LogCatCommand", message, priority);
     }
@@ -35,5 +31,4 @@ public class LogCatCommand extends InstantCommand {
     public boolean runsWhenDisabled() {
         return true;
     }
-
 }

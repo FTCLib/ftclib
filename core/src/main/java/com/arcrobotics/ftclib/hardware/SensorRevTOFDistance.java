@@ -2,18 +2,13 @@ package com.arcrobotics.ftclib.hardware;
 
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-/**
- * Class for a time-of-flight distance sensor
- */
+/** Class for a time-of-flight distance sensor */
 public class SensorRevTOFDistance implements SensorDistanceEx {
-
     /**
      * Our distance sensor object.
      *
@@ -42,7 +37,7 @@ public class SensorRevTOFDistance implements SensorDistanceEx {
      * Makes a distance sensor object from a given HardwareMap and name.
      *
      * @param hardwareMap the hardware map the DistanceSensor is registered to
-     * @param name        the name of the DistanceSensor
+     * @param name the name of the DistanceSensor
      */
     public SensorRevTOFDistance(HardwareMap hardwareMap, String name) {
         this.distanceSensor = hardwareMap.get(DistanceSensor.class, name);
@@ -53,7 +48,7 @@ public class SensorRevTOFDistance implements SensorDistanceEx {
      * Makes a distance sensor from an FTC DistanceSensor device and a given list of DistanceTargets
      *
      * @param distanceSensor the DistanceSensor object
-     * @param targetList     an ArrayList of DistanceTargets for the SensorTOFDistance
+     * @param targetList an ArrayList of DistanceTargets for the SensorTOFDistance
      */
     public SensorRevTOFDistance(DistanceSensor distanceSensor, List<DistanceTarget> targetList) {
         this.distanceSensor = distanceSensor;
@@ -64,10 +59,11 @@ public class SensorRevTOFDistance implements SensorDistanceEx {
      * Makes a distance sensor from a given HardwareMap and name and a given list of DistanceTargets
      *
      * @param hardwareMap the HardwareMap the DistanceSensor is registered to
-     * @param name        the name of the DistanceSensor on the hardwareMap
-     * @param targetList  the ArrayList of DistanceTargets for the SensorTFODistance
+     * @param name the name of the DistanceSensor on the hardwareMap
+     * @param targetList the ArrayList of DistanceTargets for the SensorTFODistance
      */
-    public SensorRevTOFDistance(HardwareMap hardwareMap, String name, List<DistanceTarget> targetList) {
+    public SensorRevTOFDistance(
+            HardwareMap hardwareMap, String name, List<DistanceTarget> targetList) {
         this.distanceSensor = hardwareMap.get(DistanceSensor.class, name);
         this.targetList = new ArrayList<>(targetList);
     }
@@ -89,7 +85,6 @@ public class SensorRevTOFDistance implements SensorDistanceEx {
 
     @Override
     public void addTargets(List<DistanceTarget> targets) {
-
         for (DistanceTarget target : targets) {
             if (!targetList.contains(target)) targetList.add(target);
         }
@@ -113,5 +108,4 @@ public class SensorRevTOFDistance implements SensorDistanceEx {
     public String getDeviceType() {
         return "TOF Rev 2m Distance Sensor";
     }
-
 }

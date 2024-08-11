@@ -3,23 +3,19 @@ package com.example.ftclibexamples.VisionSample;
 import com.arcrobotics.ftclib.vision.AprilTagDetector;
 import com.arcrobotics.ftclib.vision.DetectorState;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public class AprilTagVisionSample extends LinearOpMode {
-
     AprilTagDetector aprilTagDetector;
     OpenCvCamera camera;
     List<Integer> targets;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         DecimalFormat df = new DecimalFormat("0.00");
         aprilTagDetector = new AprilTagDetector(hardwareMap);
 
@@ -35,9 +31,7 @@ public class AprilTagVisionSample extends LinearOpMode {
         telemetry.setAutoClear(true);
 
         while (!opModeIsActive()) {
-
-            if (isStopRequested())
-                return;
+            if (isStopRequested()) return;
 
             Map<String, Integer> detection = aprilTagDetector.getDetection();
             DetectorState state = aprilTagDetector.getDetectorState();

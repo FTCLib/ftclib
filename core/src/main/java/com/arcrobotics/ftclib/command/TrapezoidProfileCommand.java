@@ -10,10 +10,7 @@
 package com.arcrobotics.ftclib.command;
 
 import com.arcrobotics.ftclib.trajectory.TrapezoidProfile;
-import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-
 import java.util.function.Consumer;
 
 /**
@@ -21,15 +18,11 @@ import java.util.function.Consumer;
  *
  * @author Ryan
  */
-
 public class TrapezoidProfileCommand extends CommandBase {
-
     private final TrapezoidProfile m_profile;
     private final Consumer<TrapezoidProfile.State> m_output;
 
-
     private final ElapsedTime m_timer = new ElapsedTime();
-
 
     /**
      * Creates a new TrapezoidProfileCommand that will execute the given {@link TrapezoidProfile}.
@@ -40,15 +33,16 @@ public class TrapezoidProfileCommand extends CommandBase {
      * @param requirements The subsystems required by this command.
      */
     public TrapezoidProfileCommand(
-            TrapezoidProfile profile, Consumer<TrapezoidProfile.State> output, Subsystem... requirements){
+            TrapezoidProfile profile,
+            Consumer<TrapezoidProfile.State> output,
+            Subsystem... requirements) {
         m_profile = profile;
         m_output = output;
         addRequirements(requirements);
     }
 
-
     @Override
-    public void initialize(){
+    public void initialize() {
         m_timer.reset();
     }
 

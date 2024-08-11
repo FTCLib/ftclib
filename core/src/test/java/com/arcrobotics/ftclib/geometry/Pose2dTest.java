@@ -1,10 +1,10 @@
 package com.arcrobotics.ftclib.geometry;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class Pose2dTest {
     private static final double kEpsilon = 1E-9;
@@ -20,16 +20,15 @@ public class Pose2dTest {
     @Test
     void testTransformBy() {
         Pose2d initial = new Pose2d(new Translation2d(1.0, 2.0), Rotation2d.fromDegrees(45.0));
-        Transform2d transformation = new Transform2d(new Translation2d(5.0, 0.0),
-                Rotation2d.fromDegrees(5.0));
+        Transform2d transformation =
+                new Transform2d(new Translation2d(5.0, 0.0), Rotation2d.fromDegrees(5.0));
 
         Pose2d transformed = initial.plus(transformation);
 
         assertAll(
                 () -> assertEquals(transformed.getX(), 1 + 5.0 / Math.sqrt(2.0), kEpsilon),
                 () -> assertEquals(transformed.getY(), 2 + 5.0 / Math.sqrt(2.0), kEpsilon),
-                () -> assertEquals(transformed.getRotation().getDegrees(), 50.0, kEpsilon)
-        );
+                () -> assertEquals(transformed.getRotation().getDegrees(), 50.0, kEpsilon));
     }
 
     @Test
@@ -40,11 +39,9 @@ public class Pose2dTest {
         Pose2d finalRelativeToInitial = last.relativeTo(initial);
 
         assertAll(
-                () -> assertEquals(finalRelativeToInitial.getX(), 5.0 * Math.sqrt(2.0),
-                        kEpsilon),
+                () -> assertEquals(finalRelativeToInitial.getX(), 5.0 * Math.sqrt(2.0), kEpsilon),
                 () -> assertEquals(finalRelativeToInitial.getY(), 0.0, kEpsilon),
-                () -> assertEquals(finalRelativeToInitial.getRotation().getDegrees(), 0.0, kEpsilon)
-        );
+                () -> assertEquals(finalRelativeToInitial.getRotation().getDegrees(), 0.0, kEpsilon));
     }
 
     @Test
@@ -71,7 +68,6 @@ public class Pose2dTest {
         assertAll(
                 () -> assertEquals(transform.getTranslation().getX(), 5.0 * Math.sqrt(2.0), kEpsilon),
                 () -> assertEquals(transform.getTranslation().getY(), 0.0, kEpsilon),
-                () -> assertEquals(transform.getRotation().getDegrees(), 0.0, kEpsilon)
-        );
+                () -> assertEquals(transform.getRotation().getDegrees(), 0.0, kEpsilon));
     }
 }

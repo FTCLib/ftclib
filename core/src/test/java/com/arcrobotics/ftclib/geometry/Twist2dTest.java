@@ -1,10 +1,10 @@
 package com.arcrobotics.ftclib.geometry;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.Test;
 
 class Twist2dTest {
     private static final double kEpsilon = 1E-9;
@@ -17,8 +17,7 @@ class Twist2dTest {
         assertAll(
                 () -> assertEquals(straightPose.getX(), 5.0, kEpsilon),
                 () -> assertEquals(straightPose.getY(), 0.0, kEpsilon),
-                () -> assertEquals(straightPose.getRotation().getRadians(), 0.0, kEpsilon)
-        );
+                () -> assertEquals(straightPose.getRotation().getRadians(), 0.0, kEpsilon));
     }
 
     @Test
@@ -29,8 +28,7 @@ class Twist2dTest {
         assertAll(
                 () -> assertEquals(quarterCirclePose.getX(), 5.0, kEpsilon),
                 () -> assertEquals(quarterCirclePose.getY(), 5.0, kEpsilon),
-                () -> assertEquals(quarterCirclePose.getRotation().getDegrees(), 90.0, kEpsilon)
-        );
+                () -> assertEquals(quarterCirclePose.getRotation().getDegrees(), 90.0, kEpsilon));
     }
 
     @Test
@@ -41,8 +39,7 @@ class Twist2dTest {
         assertAll(
                 () -> assertEquals(diagonalPose.getX(), 2.0, kEpsilon),
                 () -> assertEquals(diagonalPose.getY(), 2.0, kEpsilon),
-                () -> assertEquals(diagonalPose.getRotation().getDegrees(), 0.0, kEpsilon)
-        );
+                () -> assertEquals(diagonalPose.getRotation().getDegrees(), 0.0, kEpsilon));
     }
 
     @Test
@@ -69,7 +66,6 @@ class Twist2dTest {
         assertAll(
                 () -> assertEquals(twist.dx, 5.0 / 2.0 * Math.PI, kEpsilon),
                 () -> assertEquals(twist.dy, 0.0, kEpsilon),
-                () -> assertEquals(twist.dtheta, Math.PI / 2.0, kEpsilon)
-        );
+                () -> assertEquals(twist.dtheta, Math.PI / 2.0, kEpsilon));
     }
 }

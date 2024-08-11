@@ -1,5 +1,7 @@
 package com.arcrobotics.ftclib.vision;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -12,11 +14,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.imgproc.Moments;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FFCapstonePipeline extends OpenCvPipeline {
-
     // Declare the scalars and mats we will be using
     private Scalar low;
     private Scalar high;
@@ -66,8 +64,7 @@ public class FFCapstonePipeline extends OpenCvPipeline {
             MatOfPoint biggest = new MatOfPoint();
             for (int index = 0; index >= 0; index = (int) hierarchy.get(0, index)[0]) {
                 Imgproc.drawContours(frame, contours, index, new Scalar(88, 0, 0), 2);
-                if (index == 0)
-                    biggest = contours.get(index);
+                if (index == 0) biggest = contours.get(index);
                 else if (contours.get(index).size().area() > contours.get(index - 1).size().area())
                     biggest = contours.get(index);
             }
@@ -81,7 +78,6 @@ public class FFCapstonePipeline extends OpenCvPipeline {
 
             Rect rect = new Rect((int) centroid.x, (int) centroid.y, 10, 10);
             Imgproc.rectangle(frame, rect, new Scalar(0, 255, 255));
-
         }
 
         mask.release();
@@ -109,5 +105,4 @@ public class FFCapstonePipeline extends OpenCvPipeline {
         this.low = low;
         this.high = high;
     }
-
 }

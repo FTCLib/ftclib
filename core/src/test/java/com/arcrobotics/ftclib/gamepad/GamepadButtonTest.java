@@ -1,20 +1,17 @@
 package com.arcrobotics.ftclib.gamepad;
 
-import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.function.BooleanSupplier;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GamepadButtonTest {
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import java.util.function.BooleanSupplier;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+public class GamepadButtonTest {
     public static int x = 3;
     private Gamepad myGamepad;
     private GamepadEx gamepadEx;
@@ -37,8 +34,7 @@ public class GamepadButtonTest {
     public void oneButtonTest() {
         myGamepad.a = false;
         assertFalse(gamepadEx.getButton(GamepadKeys.Button.A));
-        gamepadEx.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new InstantCommand(() -> x = 5));
+        gamepadEx.getGamepadButton(GamepadKeys.Button.A).whenPressed(new InstantCommand(() -> x = 5));
         CommandScheduler.getInstance().run();
         assertEquals(3, x);
         myGamepad.a = true;
@@ -72,10 +68,12 @@ public class GamepadButtonTest {
         myGamepad.a = false;
         myGamepad.b = false;
         assertFalse(gamepadEx.getButton(GamepadKeys.Button.B));
-        gamepadEx.getGamepadButton(GamepadKeys.Button.A)
+        gamepadEx
+                .getGamepadButton(GamepadKeys.Button.A)
                 .and(gamepadEx.getGamepadButton(GamepadKeys.Button.B).negate())
                 .whenActive(new InstantCommand(() -> x = 5));
-        gamepadEx.getGamepadButton(GamepadKeys.Button.B)
+        gamepadEx
+                .getGamepadButton(GamepadKeys.Button.B)
                 .and(gamepadEx.getGamepadButton(GamepadKeys.Button.A).negate())
                 .whenActive(new InstantCommand(() -> x = 3));
         CommandScheduler.getInstance().run();
@@ -98,5 +96,4 @@ public class GamepadButtonTest {
         assertEquals(3, x);
         CommandScheduler.getInstance().reset();
     }
-
 }

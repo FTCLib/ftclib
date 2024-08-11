@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous
 @Disabled
 public class AutoStaticRobotPose extends LinearOpMode {
-
     private MotorEx leftEncoder, rightEncoder, perpEncoder;
     private HolonomicOdometry odometry;
 
@@ -30,13 +29,13 @@ public class AutoStaticRobotPose extends LinearOpMode {
         rightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
         perpEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
 
-        odometry = new HolonomicOdometry(
-                leftEncoder::getDistance,
-                rightEncoder::getDistance,
-                perpEncoder::getDistance,
-                TRACKWIDTH,
-                CENTER_WHEEL_OFFSET
-        );
+        odometry =
+                new HolonomicOdometry(
+                        leftEncoder::getDistance,
+                        rightEncoder::getDistance,
+                        perpEncoder::getDistance,
+                        TRACKWIDTH,
+                        CENTER_WHEEL_OFFSET);
 
         waitForStart();
 
@@ -48,5 +47,4 @@ public class AutoStaticRobotPose extends LinearOpMode {
             PositionTracker.robotPose = odometry.getPose();
         }
     }
-
 }

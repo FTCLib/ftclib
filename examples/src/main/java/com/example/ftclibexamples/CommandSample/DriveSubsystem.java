@@ -7,16 +7,13 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DriveSubsystem extends SubsystemBase {
-
     private final DifferentialDrive m_drive;
 
     private final Encoder m_left, m_right;
 
     private final double WHEEL_DIAMETER;
 
-    /**
-     * Creates a new DriveSubsystem.
-     */
+    /** Creates a new DriveSubsystem. */
     public DriveSubsystem(MotorEx leftMotor, MotorEx rightMotor, final double diameter) {
         m_left = leftMotor.encoder;
         m_right = rightMotor.encoder;
@@ -26,11 +23,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_drive = new DifferentialDrive(leftMotor, rightMotor);
     }
 
-    /**
-     * Creates a new DriveSubsystem with the hardware map and configuration names.
-     */
-    public DriveSubsystem(HardwareMap hMap, final String leftMotorName, String rightMotorName,
-                          final double diameter) {
+    /** Creates a new DriveSubsystem with the hardware map and configuration names. */
+    public DriveSubsystem(
+            HardwareMap hMap, final String leftMotorName, String rightMotorName, final double diameter) {
         this(new MotorEx(hMap, leftMotorName), new MotorEx(hMap, rightMotorName), diameter);
     }
 
@@ -68,5 +63,4 @@ public class DriveSubsystem extends SubsystemBase {
     public double getAverageEncoderDistance() {
         return (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
     }
-
 }

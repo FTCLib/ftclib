@@ -1,15 +1,13 @@
 package com.arcrobotics.ftclib.drivebase;
 
-import com.arcrobotics.ftclib.geometry.Vector2d;
-
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class MecanumDriveTest {
+import com.arcrobotics.ftclib.geometry.Vector2d;
+import org.junit.jupiter.api.Test;
 
-    public double[] driveFieldCentric(double strafeSpeed, double forwardSpeed,
-                                      double turnSpeed, double gyroAngle) {
+public class MecanumDriveTest {
+    public double[] driveFieldCentric(
+            double strafeSpeed, double forwardSpeed, double turnSpeed, double gyroAngle) {
         strafeSpeed = clipRange(strafeSpeed);
         forwardSpeed = clipRange(forwardSpeed);
         turnSpeed = clipRange(turnSpeed);
@@ -36,21 +34,16 @@ public class MecanumDriveTest {
     }
 
     /**
-     * Returns minimum range value if the given value is less than
-     * the set minimum. If the value is greater than the set maximum,
-     * then the method returns the maximum value.
+     * Returns minimum range value if the given value is less than the set minimum. If the value is
+     * greater than the set maximum, then the method returns the maximum value.
      *
      * @param value The value to clip.
      */
     public double clipRange(double value) {
-        return value <= -1 ? -1
-                : value >= 1 ? 1
-                : value;
+        return value <= -1 ? -1 : value >= 1 ? 1 : value;
     }
 
-    /**
-     * Normalize the wheel speeds
-     */
+    /** Normalize the wheel speeds */
     protected void normalize(double[] wheelSpeeds, double magnitude) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         for (int i = 1; i < wheelSpeeds.length; i++) {
@@ -62,12 +55,9 @@ public class MecanumDriveTest {
         for (int i = 0; i < wheelSpeeds.length; i++) {
             wheelSpeeds[i] = (wheelSpeeds[i] / maxMagnitude) * magnitude;
         }
-
     }
 
-    /**
-     * Normalize the wheel speeds
-     */
+    /** Normalize the wheel speeds */
     protected void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         for (int i = 1; i < wheelSpeeds.length; i++) {
@@ -87,11 +77,10 @@ public class MecanumDriveTest {
     public void testFieldCentric() {
         double[] speeds = {1, 1, 1, 1};
         assertArrayEquals(speeds, driveFieldCentric(0, 1, 0, 0), 0.05);
-        speeds = new double[]{-1, 1, -1, 1};
+        speeds = new double[] {-1, 1, -1, 1};
         assertArrayEquals(speeds, driveFieldCentric(0, 0, -1, 0), 0.05);
-        speeds = new double[]{-1, 1, 1, -1};
+        speeds = new double[] {-1, 1, 1, -1};
         assertArrayEquals(speeds, driveFieldCentric(-1, 0, 0, 0), 0.05);
         assertArrayEquals(speeds, driveFieldCentric(0, 1, 0, -90), 0.05);
     }
-
 }

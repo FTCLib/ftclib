@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name = "Command-based Autonomous Sample")
 // @Autonomous(...) is the other common choice
 public class Auto extends CommandOpMode {
-
     DriveSubsystem driveSubsystem;
     SimpleServo scoringServo;
     GamepadEx driverGamepad;

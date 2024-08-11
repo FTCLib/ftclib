@@ -3,20 +3,19 @@ package com.arcrobotics.ftclib.hardware;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class SimpleServo implements ServoEx {
-
     private Servo servo;
 
-    //always stored internally as radians
+    // always stored internally as radians
     private double maxAngle, minAngle;
 
     private final double maxPosition = 1;
     private final double minPosition = 0;
 
-    public SimpleServo(HardwareMap hw, String servoName, double minAngle, double maxAngle, AngleUnit angleUnit) {
+    public SimpleServo(
+            HardwareMap hw, String servoName, double minAngle, double maxAngle, AngleUnit angleUnit) {
         servo = hw.get(Servo.class, servoName);
 
         this.minAngle = toRadians(minAngle, angleUnit);
@@ -115,7 +114,7 @@ public class SimpleServo implements ServoEx {
         String controller = servo.getController().toString();
         return "SimpleServo: " + port + "; " + controller;
     }
-    
+
     private double toRadians(double angle, AngleUnit angleUnit) {
         return angleUnit == AngleUnit.DEGREES ? Math.toRadians(angle) : angle;
     }
@@ -123,5 +122,4 @@ public class SimpleServo implements ServoEx {
     private double fromRadians(double angle, AngleUnit angleUnit) {
         return angleUnit == AngleUnit.DEGREES ? Math.toDegrees(angle) : angle;
     }
-
 }

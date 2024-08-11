@@ -18,21 +18,19 @@ import java.util.List;
  * @author Jackson
  */
 public class SequentialCommandGroup extends CommandGroupBase {
-
     private final List<Command> m_commands = new ArrayList<>();
     private int m_currentCommandIndex = -1;
     private boolean m_runWhenDisabled = true;
 
     /**
-     * Creates a new SequentialCommandGroup.  The given commands will be run sequentially, with
-     * the CommandGroup finishing when the last command finishes.
+     * Creates a new SequentialCommandGroup. The given commands will be run sequentially, with the
+     * CommandGroup finishing when the last command finishes.
      *
      * @param commands the commands to include in this group.
      */
     public SequentialCommandGroup(Command... commands) {
         addCommands(commands);
     }
-
 
     @Override
     public void addCommands(Command... commands) {
@@ -96,5 +94,4 @@ public class SequentialCommandGroup extends CommandGroupBase {
     public boolean runsWhenDisabled() {
         return m_runWhenDisabled;
     }
-
 }

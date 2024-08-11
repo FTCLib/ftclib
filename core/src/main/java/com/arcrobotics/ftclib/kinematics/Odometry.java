@@ -3,15 +3,10 @@ package com.arcrobotics.ftclib.kinematics;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 
 public abstract class Odometry {
-
-    /**
-     * The {@link Pose2d} of the robot.
-     */
+    /** The {@link Pose2d} of the robot. */
     protected Pose2d robotPose;
 
-    /**
-     * The trackwidth of the odometers
-     */
+    /** The trackwidth of the odometers */
     protected double trackWidth;
 
     public Odometry(Pose2d robotPose) {
@@ -23,14 +18,10 @@ public abstract class Odometry {
         this.trackWidth = trackWidth;
     }
 
-    /**
-     * Updates the position of the robot.
-     */
+    /** Updates the position of the robot. */
     public abstract void updatePose(Pose2d newPose);
 
-    /**
-     * Uses suppliers to update the position of the robot
-     */
+    /** Uses suppliers to update the position of the robot */
     public abstract void updatePose();
 
     /**
@@ -50,5 +41,4 @@ public abstract class Odometry {
     public void rotatePose(double byAngle) {
         robotPose = robotPose.rotate(byAngle);
     }
-
 }

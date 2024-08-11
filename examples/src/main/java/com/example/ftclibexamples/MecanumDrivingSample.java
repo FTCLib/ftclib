@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp
 public class MecanumDrivingSample extends LinearOpMode {
-
     // This variable determines whether the following program
     // uses field-centric or robot-centric driving styles. The
     // differences between them can be read here in the docs:
@@ -20,12 +19,12 @@ public class MecanumDrivingSample extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // constructor takes in frontLeft, frontRight, backLeft, backRight motors
         // IN THAT ORDER
-        MecanumDrive drive = new MecanumDrive(
-            new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_435),
-            new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_435),
-            new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_435),
-            new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435)
-        );
+        MecanumDrive drive =
+                new MecanumDrive(
+                        new Motor(hardwareMap, "frontLeft", Motor.GoBILDA.RPM_435),
+                        new Motor(hardwareMap, "frontRight", Motor.GoBILDA.RPM_435),
+                        new Motor(hardwareMap, "backLeft", Motor.GoBILDA.RPM_435),
+                        new Motor(hardwareMap, "backRight", Motor.GoBILDA.RPM_435));
 
         // This is the built-in IMU in the REV hub.
         // We're initializing it by its default parameters
@@ -55,7 +54,6 @@ public class MecanumDrivingSample extends LinearOpMode {
         waitForStart();
 
         while (!isStopRequested()) {
-
             // Driving the mecanum base takes 3 joystick parameters: leftX, leftY, rightX.
             // These are related to the left stick x value, left stick y value, and
             // right stick x value respectively. These values are passed in to represent the
@@ -63,7 +61,6 @@ public class MecanumDrivingSample extends LinearOpMode {
             // respectively from [-1, 1].
 
             if (!FIELD_CENTRIC) {
-
                 // For a robot centric model, the input of (0,1,0) for (leftX, leftY, rightX)
                 // will move the robot in the direction of its current heading. Every movement
                 // is relative to the frame of the robot itself.
@@ -82,13 +79,8 @@ public class MecanumDrivingSample extends LinearOpMode {
 
                 // optional fourth parameter for squared inputs
                 drive.driveRobotCentric(
-                        driverOp.getLeftX(),
-                        driverOp.getLeftY(),
-                        driverOp.getRightX(),
-                        false
-                );
+                        driverOp.getLeftX(), driverOp.getLeftY(), driverOp.getRightX(), false);
             } else {
-
                 // Below is a model for how field centric will drive when given the inputs
                 // for (leftX, leftY, rightX). As you can see, for (0,1,0), it will travel forward
                 // regardless of the heading. For (1,0,0) it will strafe right (ref to the 0 heading)
@@ -109,12 +101,9 @@ public class MecanumDrivingSample extends LinearOpMode {
                         driverOp.getLeftX(),
                         driverOp.getLeftY(),
                         driverOp.getRightX(),
-                        imu.getRotation2d().getDegrees(),   // gyro value passed in here must be in degrees
-                        false
-                );
+                        imu.getRotation2d().getDegrees(), // gyro value passed in here must be in degrees
+                        false);
             }
-
         }
     }
-
 }

@@ -22,8 +22,7 @@ import static com.arcrobotics.ftclib.command.CommandGroupBase.requireUngrouped;
  *
  * @author Ryan
  */
-public class RepeatCommand extends CommandBase{
-
+public class RepeatCommand extends CommandBase {
     protected final Command m_command;
 
     /**
@@ -39,12 +38,10 @@ public class RepeatCommand extends CommandBase{
         m_requirements.addAll(command.getRequirements());
     }
 
-
     @Override
     public void initialize() {
         m_command.initialize();
     }
-
 
     @Override
     public void execute() {

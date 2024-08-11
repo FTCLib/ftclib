@@ -83,7 +83,7 @@ $ git merge dev                                     // merges changes from maste
 When development on the feature is complete, the lead (or engineer in charge) should merge changes into `dev` and then make sure the remote branch is deleted.
 
 ```
-$ git checkout dev                                  // change to the master branch  
+$ git checkout dev                                  // change to the master branch
 $ git merge --no-ff feature-id                      // makes sure to create a commit object during merge
 $ git push origin dev                               // push merge changes
 $ git push origin :feature-id                       // deletes the remote branch
@@ -96,7 +96,7 @@ A hotfix branch comes from the need to act immediately upon an undesired state o
 * Development on the `dev` branch can continue while the hotfix is being addressed.
 * A tagged `master` branch still represents what is in production. At the point in time where a hotfix is needed, there could have been multiple commits to `dev` which would then no longer represent production.
 
-`<tbd number>` represents the Basecamp project to which Project Management will be tracked. 
+`<tbd number>` represents the Basecamp project to which Project Management will be tracked.
 
 * Must branch from: tagged `master`
 * Must merge back into: `dev` and `master`

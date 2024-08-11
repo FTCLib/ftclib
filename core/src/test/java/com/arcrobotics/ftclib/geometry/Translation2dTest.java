@@ -1,10 +1,10 @@
 package com.arcrobotics.ftclib.geometry;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.Test;
 
 class Translation2dTest {
     private static final double kEpsilon = 1E-9;
@@ -18,8 +18,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(sum.getX(), 3.0, kEpsilon),
-                () -> assertEquals(sum.getY(), 8.0, kEpsilon)
-        );
+                () -> assertEquals(sum.getY(), 8.0, kEpsilon));
     }
 
     @Test
@@ -31,8 +30,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(difference.getX(), -1.0, kEpsilon),
-                () -> assertEquals(difference.getY(), -2.0, kEpsilon)
-        );
+                () -> assertEquals(difference.getY(), -2.0, kEpsilon));
     }
 
     @Test
@@ -42,8 +40,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(rotated.getX(), 0.0, kEpsilon),
-                () -> assertEquals(rotated.getY(), 3.0, kEpsilon)
-        );
+                () -> assertEquals(rotated.getY(), 3.0, kEpsilon));
     }
 
     @Test
@@ -53,8 +50,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(mult.getX(), 9.0, kEpsilon),
-                () -> assertEquals(mult.getY(), 15.0, kEpsilon)
-        );
+                () -> assertEquals(mult.getY(), 15.0, kEpsilon));
     }
 
     @Test
@@ -64,8 +60,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(div.getX(), 1.5, kEpsilon),
-                () -> assertEquals(div.getY(), 2.5, kEpsilon)
-        );
+                () -> assertEquals(div.getY(), 2.5, kEpsilon));
     }
 
     @Test
@@ -88,8 +83,7 @@ class Translation2dTest {
 
         assertAll(
                 () -> assertEquals(inverted.getX(), 4.5, kEpsilon),
-                () -> assertEquals(inverted.getY(), -7, kEpsilon)
-        );
+                () -> assertEquals(inverted.getY(), -7, kEpsilon));
     }
 
     @Test

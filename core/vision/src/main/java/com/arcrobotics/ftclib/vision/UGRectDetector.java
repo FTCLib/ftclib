@@ -2,7 +2,6 @@ package com.arcrobotics.ftclib.vision;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -10,7 +9,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class UGRectDetector {
-
     private OpenCvCamera camera;
     private boolean isUsingWebcam;
     private String webcamName;
@@ -22,7 +20,7 @@ public class UGRectDetector {
 
     private DetectorState detectorState = DetectorState.NOT_CONFIGURED;
 
-    //Lock for the camera device opening callback
+    // Lock for the camera device opening callback
     private final Object sync = new Object();
 
     // The constructor is overloaded to allow the use of webcam instead of the phone camera
@@ -36,60 +34,65 @@ public class UGRectDetector {
         this.webcamName = webcamName;
     }
 
-    public DetectorState getDetectorState(){
-        synchronized (sync){
+    public DetectorState getDetectorState() {
+        synchronized (sync) {
             return detectorState;
         }
     }
 
-
     public void init() {
         synchronized (sync) {
-            if(detectorState == DetectorState.NOT_CONFIGURED) {
-                //This will instantiate an OpenCvCamera object for the camera we'll be using
-                int cameraMonitorViewId = hardwareMap
-                        .appContext.getResources()
-                        .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            if (detectorState == DetectorState.NOT_CONFIGURED) {
+                // This will instantiate an OpenCvCamera object for the camera we'll be using
+                int cameraMonitorViewId =
+                        hardwareMap
+                                .appContext
+                                .getResources()
+                                .getIdentifier(
+                                        "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
                 if (isUsingWebcam) {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
                 } else {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createInternalCamera(
+                                            OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
                 }
 
-                //Set the pipeline the camera should use and start streaming
+                // Set the pipeline the camera should use and start streaming
                 camera.setPipeline(ftclibPipeline = new UGRectRingPipeline());
-
 
                 detectorState = DetectorState.INITIALIZING;
 
-                camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                    @Override
-                    public void onOpened() {
+                camera.openCameraDeviceAsync(
+                        new OpenCvCamera.AsyncCameraOpenListener() {
+                            @Override
+                            public void onOpened() {
+                                camera.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, ORIENTATION);
 
-                        camera.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, ORIENTATION);
+                                synchronized (sync) {
+                                    detectorState = DetectorState.RUNNING;
+                                }
+                            }
 
-                        synchronized (sync) {
-                            detectorState = DetectorState.RUNNING;
-                        }
-                    }
+                            @Override
+                            public void onError(int errorCode) {
+                                synchronized (sync) {
+                                    detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; // Set our state
+                                }
 
-                    @Override
-                    public void onError(int errorCode) {
-
-                        synchronized (sync) {
-                            detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; //Set our state
-                        }
-
-                            RobotLog.addGlobalWarningMessage("Warning: Camera device failed to open with EasyOpenCv error: " +
-                                    ((errorCode == -1) ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE" : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")
-                            ); //Warn the user about the issue
-                    }
-                });
+                                RobotLog.addGlobalWarningMessage(
+                                        "Warning: Camera device failed to open with EasyOpenCv error: "
+                                                + ((errorCode == -1)
+                                                        ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE"
+                                                        : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")); // Warn the user about the
+                                // issue
+                            }
+                        });
             }
         }
-
     }
 
     public void setTopRectangle(double topRectHeightPercentage, double topRectWidthPercentage) {
@@ -97,7 +100,8 @@ public class UGRectDetector {
         ftclibPipeline.setTopRectWidthPercentage(topRectWidthPercentage);
     }
 
-    public void setBottomRectangle(double bottomRectHeightPercentage, double bottomRectWidthPercentage) {
+    public void setBottomRectangle(
+            double bottomRectHeightPercentage, double bottomRectWidthPercentage) {
         ftclibPipeline.setBottomRectHeightPercentage(bottomRectHeightPercentage);
         ftclibPipeline.setBottomRectWidthPercentage(bottomRectWidthPercentage);
     }
@@ -108,10 +112,12 @@ public class UGRectDetector {
     }
 
     public Stack getStack() {
-        if (Math.abs(ftclibPipeline.getTopAverage() - ftclibPipeline.getBottomAverage()) < ftclibPipeline.getThreshold()
+        if (Math.abs(ftclibPipeline.getTopAverage() - ftclibPipeline.getBottomAverage())
+                        < ftclibPipeline.getThreshold()
                 && (ftclibPipeline.getTopAverage() <= 100 && ftclibPipeline.getBottomAverage() <= 100)) {
             return Stack.FOUR;
-        } else if (Math.abs(ftclibPipeline.getTopAverage() - ftclibPipeline.getBottomAverage()) < ftclibPipeline.getThreshold()
+        } else if (Math.abs(ftclibPipeline.getTopAverage() - ftclibPipeline.getBottomAverage())
+                        < ftclibPipeline.getThreshold()
                 && (ftclibPipeline.getTopAverage() >= 100 && ftclibPipeline.getBottomAverage() >= 100)) {
             return Stack.ZERO;
         } else {
@@ -136,5 +142,4 @@ public class UGRectDetector {
         ONE,
         FOUR,
     }
-
 }

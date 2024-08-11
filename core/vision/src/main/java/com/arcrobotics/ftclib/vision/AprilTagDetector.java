@@ -2,10 +2,13 @@ package com.arcrobotics.ftclib.vision;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -13,18 +16,13 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * <p>Detection wrapper for the AprilTag2dPipeline.</p>
- * <p>Customizable parameters include: camera width, height, orientation, and whether to use the GPU.</p>
+ * Detection wrapper for the AprilTag2dPipeline.
+ *
+ * <p>Customizable parameters include: camera width, height, orientation, and whether to use the
+ * GPU.
  */
 public class AprilTagDetector {
-
     private OpenCvCamera camera;
     private AprilTag2dPipeline apriltagPipeline;
     private final HardwareMap hardwareMap;
@@ -54,7 +52,7 @@ public class AprilTagDetector {
     /**
      * Creates a new AprilTagDetector instance.
      *
-     * @param hMap    The hardware map
+     * @param hMap The hardware map
      * @param camName The name of the webcam, if using one
      */
     public AprilTagDetector(HardwareMap hMap, String camName) {
@@ -70,24 +68,30 @@ public class AprilTagDetector {
     }
 
     /**
-     * <p>Initializes the camera and loads the pipeline.</p>
-     * <p>The customizations of the camera must be set before calling this method.</p>
+     * Initializes the camera and loads the pipeline.
+     *
+     * <p>The customizations of the camera must be set before calling this method.
      */
     public void init() {
-
         synchronized (sync) {
             // Get camera instance
             if (detectorState == DetectorState.NOT_CONFIGURED) {
-                int cameraMonitorViewId = hardwareMap
-                        .appContext.getResources()
-                        .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                int cameraMonitorViewId =
+                        hardwareMap
+                                .appContext
+                                .getResources()
+                                .getIdentifier(
+                                        "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
                 if (isUsingWebcam) {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createWebcam(hardwareMap.get(WebcamName.class, cameraName), cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createWebcam(hardwareMap.get(WebcamName.class, cameraName), cameraMonitorViewId);
                 } else {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createInternalCamera(
+                                            OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
                 }
 
                 // Instantiate pipeline and start streaming
@@ -100,36 +104,38 @@ public class AprilTagDetector {
                     camera.setViewportRenderer(OpenCvCamera.ViewportRenderer.GPU_ACCELERATED);
                 }
                 camera.showFpsMeterOnViewport(false);
-                camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                camera.openCameraDeviceAsync(
+                        new OpenCvCamera.AsyncCameraOpenListener() {
+                            @Override
+                            public void onOpened() {
+                                synchronized (sync) {
+                                    detectorState = DetectorState.RUNNING;
+                                    sync.notifyAll();
+                                }
 
-                    @Override
-                    public void onOpened() {
-                        synchronized (sync) {
-                            detectorState = DetectorState.RUNNING;
-                            sync.notifyAll();
-                        }
+                                camera.startStreaming(WIDTH, HEIGHT, ORIENTATION);
+                            }
 
-                        camera.startStreaming(WIDTH, HEIGHT, ORIENTATION);
-                    }
-
-                    @Override
-                    public void onError(int errorCode) {
-                        synchronized (sync) {
-                            detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING;
-                            sync.notifyAll();
-                        }
-                        RobotLog.setGlobalErrorMsg("Camera device failed to open with OpenCV error " + errorCode);
-                    }
-                });
+                            @Override
+                            public void onError(int errorCode) {
+                                synchronized (sync) {
+                                    detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING;
+                                    sync.notifyAll();
+                                }
+                                RobotLog.setGlobalErrorMsg(
+                                        "Camera device failed to open with OpenCV error " + errorCode);
+                            }
+                        });
             }
         }
     }
 
     /**
-     * <p>Closes the camera device and stops the detector. Runs by default at the end of the OpMode.</p>
-     * <p>This method is <strong>synchronous</strong>, meaning it will block the thread until the camera is closed.</p>
+     * Closes the camera device and stops the detector. Runs by default at the end of the OpMode.
+     *
+     * <p>This method is <strong>synchronous</strong>, meaning it will block the thread until the
+     * camera is closed.
      */
-
     public void close() {
         synchronized (sync) {
             if (detectorState != DetectorState.RUNNING) {
@@ -144,8 +150,10 @@ public class AprilTagDetector {
     }
 
     /**
-     * <p>Closes the camera device and stops the detector.</p>
-     * <p>This method is <strong>asynchronous</strong>, meaning it will not block the thread until the camera is closed.</p>
+     * Closes the camera device and stops the detector.
+     *
+     * <p>This method is <strong>asynchronous</strong>, meaning it will not block the thread until the
+     * camera is closed.
      */
     public void closeAsync() {
         synchronized (sync) {
@@ -154,14 +162,15 @@ public class AprilTagDetector {
             }
         }
 
-        camera.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
-            @Override
-            public void onClose() {
-                synchronized (sync) {
-                    detectorState = DetectorState.NOT_CONFIGURED;
-                }
-            }
-        });
+        camera.closeCameraDeviceAsync(
+                new OpenCvCamera.AsyncCameraCloseListener() {
+                    @Override
+                    public void onClose() {
+                        synchronized (sync) {
+                            detectorState = DetectorState.NOT_CONFIGURED;
+                        }
+                    }
+                });
     }
 
     /**
@@ -190,10 +199,12 @@ public class AprilTagDetector {
     }
 
     /**
-     * <p>Gets the latest detection data from the AprilTagDetector.</p>
-     * <p>Shows a warning if no target AprilTags have been set.</p>
+     * Gets the latest detection data from the AprilTagDetector.
      *
-     * @return A map containing the ID, x, and y coordinates of the first target AprilTag detected. Null if no AprilTags are detected.
+     * <p>Shows a warning if no target AprilTags have been set.
+     *
+     * @return A map containing the ID, x, and y coordinates of the first target AprilTag detected.
+     *     Null if no AprilTags are detected.
      */
     @Nullable
     public Map<String, Integer> getDetection() {

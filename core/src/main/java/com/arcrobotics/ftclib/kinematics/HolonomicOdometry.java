@@ -3,11 +3,9 @@ package com.arcrobotics.ftclib.kinematics;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Twist2d;
-
 import java.util.function.DoubleSupplier;
 
 public class HolonomicOdometry extends Odometry {
-
     private double prevLeftEncoder, prevRightEncoder, prevHorizontalEncoder;
     private Rotation2d previousAngle;
     private double centerWheelOffset;
@@ -15,8 +13,12 @@ public class HolonomicOdometry extends Odometry {
     // the suppliers
     DoubleSupplier m_left, m_right, m_horizontal;
 
-    public HolonomicOdometry(DoubleSupplier leftEncoder, DoubleSupplier rightEncoder,
-                             DoubleSupplier horizontalEncoder, double trackWidth, double centerWheelOffset) {
+    public HolonomicOdometry(
+            DoubleSupplier leftEncoder,
+            DoubleSupplier rightEncoder,
+            DoubleSupplier horizontalEncoder,
+            double trackWidth,
+            double centerWheelOffset) {
         this(trackWidth, centerWheelOffset);
         m_left = leftEncoder;
         m_right = rightEncoder;
@@ -33,9 +35,7 @@ public class HolonomicOdometry extends Odometry {
         this(new Pose2d(), trackwidth, centerWheelOffset);
     }
 
-    /**
-     * This handles all the calculations for you.
-     */
+    /** This handles all the calculations for you. */
     @Override
     public void updatePose() {
         update(m_left.getAsDouble(), m_right.getAsDouble(), m_horizontal.getAsDouble());
@@ -56,11 +56,8 @@ public class HolonomicOdometry extends Odometry {
         double deltaRightEncoder = rightEncoderPos - prevRightEncoder;
         double deltaHorizontalEncoder = horizontalEncoderPos - prevHorizontalEncoder;
 
-        Rotation2d angle = previousAngle.plus(
-                new Rotation2d(
-                        (deltaLeftEncoder - deltaRightEncoder) / trackWidth
-                )
-        );
+        Rotation2d angle =
+                previousAngle.plus(new Rotation2d((deltaLeftEncoder - deltaRightEncoder) / trackWidth));
 
         prevLeftEncoder = leftEncoderPos;
         prevRightEncoder = rightEncoderPos;
@@ -79,5 +76,4 @@ public class HolonomicOdometry extends Odometry {
 
         robotPose = new Pose2d(newPose.getTranslation(), angle);
     }
-
 }

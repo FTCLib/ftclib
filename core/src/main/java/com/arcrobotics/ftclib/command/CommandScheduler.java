@@ -20,20 +20,17 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * The scheduler responsible for running {@link Command}s.  A Command-based robot should call {@link
+ * The scheduler responsible for running {@link Command}s. A Command-based robot should call {@link
  * CommandScheduler#run()} on the singleton instance in its periodic block in order to run commands
- * synchronously from the main loop.  Subsystems should be registered with the scheduler using
- * {@link CommandScheduler#registerSubsystem(Subsystem...)} in order for their {@link
- * Subsystem#periodic()} methods to be called and for their default commands to be scheduled.
+ * synchronously from the main loop. Subsystems should be registered with the scheduler using {@link
+ * CommandScheduler#registerSubsystem(Subsystem...)} in order for their {@link Subsystem#periodic()}
+ * methods to be called and for their default commands to be scheduled.
  *
  * @author Jackson
  */
 @SuppressWarnings({"PMD.GodClass", "PMD.TooManyMethods", "PMD.TooManyFields"})
 public final class CommandScheduler {
-
-    /**
-     * The singleton instance
-     */
+    /** The singleton instance */
     private static CommandScheduler instance;
 
     /**
@@ -53,7 +50,7 @@ public final class CommandScheduler {
     private final Map<Command, CommandState> m_scheduledCommands = new LinkedHashMap<>();
 
     // A map from required subsystems to their requiring commands.  Also used as a set of the
-    //currently-required subsystems.
+    // currently-required subsystems.
     private final Map<Subsystem, Command> m_requirements = new LinkedHashMap<>();
 
     // A map from subsystems registered with the scheduler to their default commands.  Also used
@@ -74,9 +71,7 @@ public final class CommandScheduler {
     private boolean m_inRunLoop;
     private final List<Command> m_toCancel = new ArrayList<>();
 
-    CommandScheduler() {
-
-    }
+    CommandScheduler() {}
 
     /**
      * Adds a button binding to the scheduler, which will be polled to schedule commands.
@@ -87,9 +82,7 @@ public final class CommandScheduler {
         m_buttons.add(button);
     }
 
-    /**
-     * Removes all button bindings from the scheduler.
-     */
+    /** Removes all button bindings from the scheduler. */
     public void clearButtons() {
         m_buttons.clear();
     }
@@ -97,9 +90,9 @@ public final class CommandScheduler {
     /**
      * Initializes a given command, adds its requirements to the list, and performs the init actions.
      *
-     * @param command       The command to initialize
+     * @param command The command to initialize
      * @param interruptible Whether the command is interruptible
-     * @param requirements  The command requirements
+     * @param requirements The command requirements
      */
     private void initCommand(Command command, boolean interruptible, Set<Subsystem> requirements) {
         command.initialize();
@@ -114,13 +107,13 @@ public final class CommandScheduler {
     }
 
     /**
-     * Schedules a command for execution.  Does nothing if the command is already scheduled. If a
+     * Schedules a command for execution. Does nothing if the command is already scheduled. If a
      * command's requirements are not available, it will only be started if all the commands currently
-     * using those requirements have been scheduled as interruptible.  If this is the case, they will
+     * using those requirements have been scheduled as interruptible. If this is the case, they will
      * be interrupted and the command will be scheduled.
      *
      * @param interruptible whether this command can be interrupted
-     * @param command       the command to schedule
+     * @param command the command to schedule
      */
     @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
     private void schedule(boolean interruptible, Command command) {
@@ -136,7 +129,8 @@ public final class CommandScheduler {
 
         // Do nothing if the scheduler is disabled, the robot is disabled and the command doesn't
         // run when disabled, or the command is already scheduled.
-        if (m_disabled || (!command.runsWhenDisabled() && Robot.isDisabled)
+        if (m_disabled
+                || (!command.runsWhenDisabled() && Robot.isDisabled)
                 || m_scheduledCommands.containsKey(command)) {
             return;
         }
@@ -165,13 +159,13 @@ public final class CommandScheduler {
     }
 
     /**
-     * Schedules multiple commands for execution.  Does nothing if the command is already scheduled.
-     * If a command's requirements are not available, it will only be started if all the commands
-     * currently using those requirements have been scheduled as interruptible.  If this is the case,
+     * Schedules multiple commands for execution. Does nothing if the command is already scheduled. If
+     * a command's requirements are not available, it will only be started if all the commands
+     * currently using those requirements have been scheduled as interruptible. If this is the case,
      * they will be interrupted and the command will be scheduled.
      *
      * @param interruptible whether the commands should be interruptible
-     * @param commands      the commands to schedule
+     * @param commands the commands to schedule
      */
     public void schedule(boolean interruptible, Command... commands) {
         for (Command command : commands) {
@@ -180,7 +174,7 @@ public final class CommandScheduler {
     }
 
     /**
-     * Schedules multiple commands for execution, with interruptible defaulted to true.  Does nothing
+     * Schedules multiple commands for execution, with interruptible defaulted to true. Does nothing
      * if the command is already scheduled.
      *
      * @param commands the commands to schedule
@@ -190,7 +184,7 @@ public final class CommandScheduler {
     }
 
     /**
-     * Runs a single iteration of the scheduler.  The execution occurs in the following order:
+     * Runs a single iteration of the scheduler. The execution occurs in the following order:
      *
      * <p>Subsystem periodic methods are called.
      *
@@ -222,7 +216,7 @@ public final class CommandScheduler {
         m_inRunLoop = true;
         // Run scheduled commands, remove finished commands.
         for (Iterator<Command> iterator = m_scheduledCommands.keySet().iterator();
-             iterator.hasNext(); ) {
+                iterator.hasNext(); ) {
             Command command = iterator.next();
 
             if (!command.runsWhenDisabled() && Robot.isDisabled) {
@@ -272,10 +266,9 @@ public final class CommandScheduler {
     }
 
     /**
-     * Registers subsystems with the scheduler.  This must be called for the subsystem's periodic
-     * block to run when the scheduler is run, and for the subsystem's default command to be
-     * scheduled.  It is recommended to call this from the constructor of your subsystem
-     * implementations.
+     * Registers subsystems with the scheduler. This must be called for the subsystem's periodic block
+     * to run when the scheduler is run, and for the subsystem's default command to be scheduled. It
+     * is recommended to call this from the constructor of your subsystem implementations.
      *
      * @param subsystems the subsystem to register
      */
@@ -286,7 +279,7 @@ public final class CommandScheduler {
     }
 
     /**
-     * Un-registers subsystems with the scheduler.  The subsystem will no longer have its periodic
+     * Un-registers subsystems with the scheduler. The subsystem will no longer have its periodic
      * block called, and will not have its default command scheduled.
      *
      * @param subsystems the subsystem to un-register
@@ -295,21 +288,19 @@ public final class CommandScheduler {
         m_subsystems.keySet().removeAll(Arrays.asList(subsystems));
     }
 
-    /**
-     * Resets the CommandScheduler instance
-     */
+    /** Resets the CommandScheduler instance */
     public synchronized void reset() {
         instance = null;
     }
 
     /**
-     * Sets the default command for a subsystem.  Registers that subsystem if it is not already
-     * registered.  Default commands will run whenever there is no other command currently scheduled
-     * that requires the subsystem.  Default commands should be written to never end (i.e. their
-     * {@link Command#isFinished()} method should return false), as they would simply be re-scheduled
-     * if they do.  Default commands must also require their subsystem.
+     * Sets the default command for a subsystem. Registers that subsystem if it is not already
+     * registered. Default commands will run whenever there is no other command currently scheduled
+     * that requires the subsystem. Default commands should be written to never end (i.e. their {@link
+     * Command#isFinished()} method should return false), as they would simply be re-scheduled if they
+     * do. Default commands must also require their subsystem.
      *
-     * @param subsystem      the subsystem whose default command will be set
+     * @param subsystem the subsystem whose default command will be set
      * @param defaultCommand the default command to associate with the subsystem
      */
     public void setDefaultCommand(Subsystem subsystem, Command defaultCommand) {
@@ -325,7 +316,7 @@ public final class CommandScheduler {
     }
 
     /**
-     * Gets the default command associated with this subsystem.  Null if this subsystem has no default
+     * Gets the default command associated with this subsystem. Null if this subsystem has no default
      * command associated with it.
      *
      * @param subsystem the subsystem to inquire about
@@ -336,8 +327,8 @@ public final class CommandScheduler {
     }
 
     /**
-     * Cancels commands.  The scheduler will only call the interrupted method of a canceled command,
-     * not the end method (though the interrupted method may itself call the end method).  Commands
+     * Cancels commands. The scheduler will only call the interrupted method of a canceled command,
+     * not the end method (though the interrupted method may itself call the end method). Commands
      * will be canceled even if they are not scheduled as interruptible.
      *
      * @param commands the commands to cancel
@@ -362,9 +353,7 @@ public final class CommandScheduler {
         }
     }
 
-    /**
-     * Cancels all commands that are currently scheduled.
-     */
+    /** Cancels all commands that are currently scheduled. */
     public void cancelAll() {
         for (Command command : m_scheduledCommands.keySet()) {
             cancel(command);
@@ -372,9 +361,9 @@ public final class CommandScheduler {
     }
 
     /**
-     * Whether the given commands are running.  Note that this only works on commands that are
-     * directly scheduled by the scheduler; it will not work on commands inside of CommandGroups, as
-     * the scheduler does not see them.
+     * Whether the given commands are running. Note that this only works on commands that are directly
+     * scheduled by the scheduler; it will not work on commands inside of CommandGroups, as the
+     * scheduler does not see them.
      *
      * @param commands the command to query
      * @return whether the command is currently scheduled
@@ -384,7 +373,7 @@ public final class CommandScheduler {
     }
 
     /**
-     * Returns the command currently requiring a given subsystem.  Null if no command is currently
+     * Returns the command currently requiring a given subsystem. Null if no command is currently
      * requiring the subsystem
      *
      * @param subsystem the subsystem to be inquired about
@@ -394,16 +383,12 @@ public final class CommandScheduler {
         return m_requirements.get(subsystem);
     }
 
-    /**
-     * Disables the command scheduler.
-     */
+    /** Disables the command scheduler. */
     public void disable() {
         m_disabled = true;
     }
 
-    /**
-     * Enables the command scheduler.
-     */
+    /** Enables the command scheduler. */
     public void enable() {
         m_disabled = false;
     }
@@ -443,5 +428,4 @@ public final class CommandScheduler {
     public void onCommandFinish(Consumer<Command> action) {
         m_finishActions.add(action);
     }
-
 }

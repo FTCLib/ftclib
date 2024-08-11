@@ -10,25 +10,23 @@ package com.arcrobotics.ftclib.command.button;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
-
 import java.util.function.BooleanSupplier;
 
 /**
  * This class provides an easy way to link commands to inputs.
  *
- * <p>It is very easy to link a button to a command. For instance, you could link the trigger
- * button of a joystick to a "score" command.
+ * <p>It is very easy to link a button to a command. For instance, you could link the trigger button
+ * of a joystick to a "score" command.
  *
- * <p>It is encouraged that teams write a subclass of Trigger if they want to have something
- * unusual (for instance, if they want to react to the user holding a button while the robot is
- * reading a certain sensor input). For this, they only have to write the {@link Trigger#get()}
- * method to get the full functionality of the Trigger class.
+ * <p>It is encouraged that teams write a subclass of Trigger if they want to have something unusual
+ * (for instance, if they want to react to the user holding a button while the robot is reading a
+ * certain sensor input). For this, they only have to write the {@link Trigger#get()} method to get
+ * the full functionality of the Trigger class.
  *
  * @author Jackson
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class Trigger {
-
     private final BooleanSupplier m_isActive;
 
     /**
@@ -41,7 +39,7 @@ public class Trigger {
     }
 
     /**
-     * Creates a new trigger that is always inactive.  Useful only as a no-arg constructor for
+     * Creates a new trigger that is always inactive. Useful only as a no-arg constructor for
      * subclasses that will be overriding {@link Trigger#get()} anyway.
      */
     public Trigger() {
@@ -62,31 +60,33 @@ public class Trigger {
     /**
      * Starts the given command whenever the trigger just becomes active.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this trigger, so calls can be chained
      */
     public Trigger whenActive(final Command command, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (!m_pressedLast && pressed) {
-                    command.schedule(interruptible);
-                }
+                                if (!m_pressedLast && pressed) {
+                                    command.schedule(interruptible);
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
 
         return this;
     }
 
     /**
-     * Starts the given command whenever the trigger just becomes active.  The command is set to be
+     * Starts the given command whenever the trigger just becomes active. The command is set to be
      * interruptible.
      *
      * @param command the command to start
@@ -108,40 +108,42 @@ public class Trigger {
 
     /**
      * Constantly starts the given command while the button is held.
-     * <p>
-     * {@link Command#schedule(boolean)} will be called repeatedly while the trigger is active, and
+     *
+     * <p>{@link Command#schedule(boolean)} will be called repeatedly while the trigger is active, and
      * will be canceled when the trigger becomes inactive.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this trigger, so calls can be chained
      */
     public Trigger whileActiveContinuous(final Command command, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (pressed) {
-                    command.schedule(interruptible);
-                } else if (m_pressedLast) {
-                    command.cancel();
-                }
+                                if (pressed) {
+                                    command.schedule(interruptible);
+                                } else if (m_pressedLast) {
+                                    command.cancel();
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
 
         return this;
     }
 
     /**
      * Constantly starts the given command while the button is held.
-     * <p>
-     * {@link Command#schedule(boolean)} will be called repeatedly while the trigger is active, and
-     * will be canceled when the trigger becomes inactive.  The command is set to be interruptible.
+     *
+     * <p>{@link Command#schedule(boolean)} will be called repeatedly while the trigger is active, and
+     * will be canceled when the trigger becomes inactive. The command is set to be interruptible.
      *
      * @param command the command to start
      * @return this trigger, so calls can be chained
@@ -164,33 +166,35 @@ public class Trigger {
      * Starts the given command when the trigger initially becomes active, and ends it when it becomes
      * inactive, but does not re-start it in-between.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this trigger, so calls can be chained
      */
     public Trigger whileActiveOnce(final Command command, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (!m_pressedLast && pressed) {
-                    command.schedule(interruptible);
-                } else if (m_pressedLast && !pressed) {
-                    command.cancel();
-                }
+                                if (!m_pressedLast && pressed) {
+                                    command.schedule(interruptible);
+                                } else if (m_pressedLast && !pressed) {
+                                    command.cancel();
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
         return this;
     }
 
     /**
      * Starts the given command when the trigger initially becomes active, and ends it when it becomes
-     * inactive, but does not re-start it in-between.  The command is set to be interruptible.
+     * inactive, but does not re-start it in-between. The command is set to be interruptible.
      *
      * @param command the command to start
      * @return this trigger, so calls can be chained
@@ -202,30 +206,32 @@ public class Trigger {
     /**
      * Starts the command when the trigger becomes inactive.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this trigger, so calls can be chained
      */
     public Trigger whenInactive(final Command command, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (m_pressedLast && !pressed) {
-                    command.schedule(interruptible);
-                }
+                                if (m_pressedLast && !pressed) {
+                                    command.schedule(interruptible);
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
         return this;
     }
 
     /**
-     * Starts the command when the trigger becomes inactive.  The command is set to be interruptible.
+     * Starts the command when the trigger becomes inactive. The command is set to be interruptible.
      *
      * @param command the command to start
      * @return this trigger, so calls can be chained
@@ -247,34 +253,36 @@ public class Trigger {
     /**
      * Toggles a command when the trigger becomes active.
      *
-     * @param command       the command to toggle
+     * @param command the command to toggle
      * @param interruptible whether the command is interruptible
      * @return this trigger, so calls can be chained
      */
     public Trigger toggleWhenActive(final Command command, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (!m_pressedLast && pressed) {
-                    if (command.isScheduled()) {
-                        command.cancel();
-                    } else {
-                        command.schedule(interruptible);
-                    }
-                }
+                                if (!m_pressedLast && pressed) {
+                                    if (command.isScheduled()) {
+                                        command.cancel();
+                                    } else {
+                                        command.schedule(interruptible);
+                                    }
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
         return this;
     }
 
     /**
-     * Toggles a command when the trigger becomes active.  The command is set to be interruptible.
+     * Toggles a command when the trigger becomes active. The command is set to be interruptible.
      *
      * @param command the command to toggle
      * @return this trigger, so calls can be chained
@@ -284,48 +292,51 @@ public class Trigger {
     }
 
     /**
-     * Toggles between two commands when the trigger becomes active (commadOne then commandTwo
-     * then commandOne).
+     * Toggles between two commands when the trigger becomes active (commadOne then commandTwo then
+     * commandOne).
      *
-     * @param commandOne    the command to toggle
-     * @param commandTwo    the command to be toggled
+     * @param commandOne the command to toggle
+     * @param commandTwo the command to be toggled
      * @param interruptible whether the commands are interruptible
      * @return this trigger, so calls can be chained
      */
-    public Trigger toggleWhenActive(final Command commandOne, final Command commandTwo, boolean interruptible) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
-            private boolean m_firstCommandActive = false;
+    public Trigger toggleWhenActive(
+            final Command commandOne, final Command commandTwo, boolean interruptible) {
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
+                            private boolean m_firstCommandActive = false;
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (!m_pressedLast && pressed) {
-                    if (m_firstCommandActive) {
-                        if (commandOne.isScheduled()) {
-                            commandOne.cancel();
-                        }
-                        commandTwo.schedule(interruptible);
-                    } else {
-                        if (commandTwo.isScheduled()) {
-                            commandTwo.cancel();
-                        }
-                        commandOne.schedule(interruptible);
-                    }
+                                if (!m_pressedLast && pressed) {
+                                    if (m_firstCommandActive) {
+                                        if (commandOne.isScheduled()) {
+                                            commandOne.cancel();
+                                        }
+                                        commandTwo.schedule(interruptible);
+                                    } else {
+                                        if (commandTwo.isScheduled()) {
+                                            commandTwo.cancel();
+                                        }
+                                        commandOne.schedule(interruptible);
+                                    }
 
-                    m_firstCommandActive = !m_firstCommandActive;
-                }
+                                    m_firstCommandActive = !m_firstCommandActive;
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
         return this;
     }
 
     /**
-     * Toggles between two commands when the trigger becomes active (commadOne then commandTwo
-     * then commandOne). These commands are set to be interruptible.
+     * Toggles between two commands when the trigger becomes active (commadOne then commandTwo then
+     * commandOne). These commands are set to be interruptible.
      *
      * @param commandOne the command to start
      * @param commandTwo the command to be activated after
@@ -354,20 +365,22 @@ public class Trigger {
      * @return this trigger, so calls can be chained
      */
     public Trigger cancelWhenActive(final Command command) {
-        CommandScheduler.getInstance().addButton(new Runnable() {
-            private boolean m_pressedLast = get();
+        CommandScheduler.getInstance()
+                .addButton(
+                        new Runnable() {
+                            private boolean m_pressedLast = get();
 
-            @Override
-            public void run() {
-                boolean pressed = get();
+                            @Override
+                            public void run() {
+                                boolean pressed = get();
 
-                if (!m_pressedLast && pressed) {
-                    command.cancel();
-                }
+                                if (!m_pressedLast && pressed) {
+                                    command.cancel();
+                                }
 
-                m_pressedLast = pressed;
-            }
-        });
+                                m_pressedLast = pressed;
+                            }
+                        });
         return this;
     }
 
@@ -402,5 +415,4 @@ public class Trigger {
     public Trigger negate() {
         return new Trigger(() -> !get());
     }
-
 }

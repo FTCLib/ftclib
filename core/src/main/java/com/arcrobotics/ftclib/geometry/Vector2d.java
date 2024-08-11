@@ -1,21 +1,16 @@
 package com.arcrobotics.ftclib.geometry;
 
 /**
- * Think of a vector as a ray with a starting point at the origin.
- * The point represented by (x, y) is the point that the ray's arrow points.
- * This represents the vector in 2d Cartesian space. A vector is essentially a value,
- * or magnitude, with a set direction. You can also put a vector in polar form:
- * (r, theta), where r is the magnitude and theta is the directional angle.
+ * Think of a vector as a ray with a starting point at the origin. The point represented by (x, y)
+ * is the point that the ray's arrow points. This represents the vector in 2d Cartesian space. A
+ * vector is essentially a value, or magnitude, with a set direction. You can also put a vector in
+ * polar form: (r, theta), where r is the magnitude and theta is the directional angle.
  */
 public class Vector2d {
-
     private final double m_x;
     private final double m_y;
 
-    /**
-     * Default constructor, no params.
-     * Initializes to x and y components of 0
-     */
+    /** Default constructor, no params. Initializes to x and y components of 0 */
     public Vector2d() {
         this(0, 0);
     }
@@ -50,9 +45,7 @@ public class Vector2d {
         return new Vector2d(x, y);
     }
 
-    /**
-     * @return the angle of the vector
-     */
+    /** @return the angle of the vector */
     public double angle() {
         return Math.atan2(m_y, m_x);
     }
@@ -129,9 +122,7 @@ public class Vector2d {
         return m_x * other.m_x + m_y * other.m_y;
     }
 
-    /**
-     * Returns magnitude (norm) of the vector.
-     */
+    /** Returns magnitude (norm) of the vector. */
     public double magnitude() {
         return Math.hypot(m_x, m_y);
     }

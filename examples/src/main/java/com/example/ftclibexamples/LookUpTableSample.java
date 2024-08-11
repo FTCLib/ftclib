@@ -14,15 +14,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "LUT Sample")
 @Disabled
 public class LookUpTableSample extends LinearOpMode {
-
     // our lookup table of distances from the goal and respective speeds of the shooter
-    LUT<Double, Double> speeds = new LUT<Double, Double>() {{
-        add(5.0, 1.0);
-        add(4.0, 0.9);
-        add(3.0, 0.75);
-        add(2.0, 0.5);
-        add(1.0, 0.2);
-    }};
+    LUT<Double, Double> speeds =
+            new LUT<Double, Double>() {
+                {
+                    add(5.0, 1.0);
+                    add(4.0, 0.9);
+                    add(3.0, 0.75);
+                    add(2.0, 0.5);
+                    add(1.0, 0.2);
+                }
+            };
 
     private HolonomicOdometry odometry;
     private MotorEx leftEncoder, rightEncoder, perpEncoder;
@@ -44,13 +46,9 @@ public class LookUpTableSample extends LinearOpMode {
         perpEncoder.setDistancePerPulse(2 * Math.PI / (double) 8192);
 
         // The last two values are trackwidth and center_wheel_offset
-        odometry = new HolonomicOdometry(
-                leftEncoder::getDistance,
-                rightEncoder::getDistance,
-                perpEncoder::getDistance,
-                14,
-                2.1
-        );
+        odometry =
+                new HolonomicOdometry(
+                        leftEncoder::getDistance, rightEncoder::getDistance, perpEncoder::getDistance, 14, 2.1);
 
         odometry.updatePose(new Pose2d(3, 4, new Rotation2d(0)));
 
@@ -64,7 +62,5 @@ public class LookUpTableSample extends LinearOpMode {
             }
             odometry.updatePose();
         }
-
     }
-
 }

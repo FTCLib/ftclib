@@ -19,15 +19,14 @@ import java.util.Map;
  * @author Jackson
  */
 public class ParallelCommandGroup extends CommandGroupBase {
-
     // maps commands in this group to whether they are still running
     private final Map<Command, Boolean> m_commands = new HashMap<>();
     private boolean m_runWhenDisabled = true;
 
     /**
-     * Creates a new ParallelCommandGroup.  The given commands will be executed simultaneously.
-     * The command group will finish when the last command finishes.  If the CommandGroup is
-     * interrupted, only the commands that are still running will be interrupted.
+     * Creates a new ParallelCommandGroup. The given commands will be executed simultaneously. The
+     * command group will finish when the last command finishes. If the CommandGroup is interrupted,
+     * only the commands that are still running will be interrupted.
      *
      * @param commands the commands to include in this group.
      */
@@ -48,8 +47,8 @@ public class ParallelCommandGroup extends CommandGroupBase {
 
         for (Command command : commands) {
             if (!Collections.disjoint(command.getRequirements(), m_requirements)) {
-                throw new IllegalArgumentException("Multiple commands in a parallel group cannot"
-                        + "require the same subsystems");
+                throw new IllegalArgumentException(
+                        "Multiple commands in a parallel group cannot" + "require the same subsystems");
             }
             m_commands.put(command, false);
             m_requirements.addAll(command.getRequirements());
@@ -99,5 +98,4 @@ public class ParallelCommandGroup extends CommandGroupBase {
     public boolean runsWhenDisabled() {
         return m_runWhenDisabled;
     }
-
 }

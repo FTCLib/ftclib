@@ -8,7 +8,6 @@
 package com.arcrobotics.ftclib.command;
 
 import com.arcrobotics.ftclib.util.Timing.Timer;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +17,6 @@ import java.util.concurrent.TimeUnit;
  * @author Jackson
  */
 public class WaitCommand extends CommandBase {
-
     protected Timer m_timer;
 
     /**
@@ -50,5 +48,4 @@ public class WaitCommand extends CommandBase {
     public boolean runsWhenDisabled() {
         return true;
     }
-
 }

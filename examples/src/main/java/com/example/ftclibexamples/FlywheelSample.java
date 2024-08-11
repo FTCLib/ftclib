@@ -8,17 +8,12 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import java.util.List;
 
-/**
- * A sample opmode for a flywheel with two motors
- * that are linked mechanically.
- */
+/** A sample opmode for a flywheel with two motors that are linked mechanically. */
 @TeleOp
 @Disabled
 public class FlywheelSample extends LinearOpMode {
-
     private GamepadEx toolOp;
 
     // this is our flywheel motor group
@@ -34,10 +29,10 @@ public class FlywheelSample extends LinearOpMode {
         // this creates a group of two 6k RPM goBILDA motors
         // the 'flywheel_left' motor in the configuration will be set
         // as the leader for the group
-        flywheel = new MotorGroup(
-                new Motor(hardwareMap, "flywheel_left", Motor.GoBILDA.BARE),
-                new Motor(hardwareMap, "flywheel_right", Motor.GoBILDA.BARE)
-        );
+        flywheel =
+                new MotorGroup(
+                        new Motor(hardwareMap, "flywheel_left", Motor.GoBILDA.BARE),
+                        new Motor(hardwareMap, "flywheel_right", Motor.GoBILDA.BARE));
 
         flywheel.setRunMode(Motor.RunMode.VelocityControl);
         flywheel.setVeloCoefficients(kP, 0, 0);
@@ -74,5 +69,4 @@ public class FlywheelSample extends LinearOpMode {
             toolOp.readButtons();
         }
     }
-
 }

@@ -12,14 +12,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Schedules the given commands when this command is initialized.  Useful for forking off from
- * CommandGroups.  Note that if run from a CommandGroup, the group will not know about the status
- * of the scheduled commands, and will treat this command as finishing instantly.
+ * Schedules the given commands when this command is initialized. Useful for forking off from
+ * CommandGroups. Note that if run from a CommandGroup, the group will not know about the status of
+ * the scheduled commands, and will treat this command as finishing instantly.
  *
  * @author Jackson
  */
 public class ScheduleCommand extends CommandBase {
-
     private final Set<Command> m_toSchedule;
 
     /**
@@ -47,5 +46,4 @@ public class ScheduleCommand extends CommandBase {
     public boolean runsWhenDisabled() {
         return true;
     }
-
 }

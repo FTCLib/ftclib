@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Performs spline interpolation given a set of control points.
- */
+/** Performs spline interpolation given a set of control points. */
 public class InterpLUT {
-
     private List<Double> mX = new ArrayList<>();
     private List<Double> mY = new ArrayList<>();
     private List<Double> mM = new ArrayList<>();
@@ -19,8 +16,7 @@ public class InterpLUT {
         mM = m;
     }
 
-    public InterpLUT() {
-    }
+    public InterpLUT() {}
 
     public void add(double input, double output) {
         mX.add(input);
@@ -30,20 +26,21 @@ public class InterpLUT {
     /**
      * Creates a monotone cubic spline from a given set of control points.
      *
-     * <p>
-     * The spline is guaranteed to pass through each control point exactly. Moreover, assuming the control points are
-     * monotonic (Y is non-decreasing or non-increasing) then the interpolated values will also be monotonic.
+     * <p>The spline is guaranteed to pass through each control point exactly. Moreover, assuming the
+     * control points are monotonic (Y is non-decreasing or non-increasing) then the interpolated
+     * values will also be monotonic.
      *
-     * @throws IllegalArgumentException if the X or Y arrays are null, have different lengths or have fewer than 2 values.
+     * @throws IllegalArgumentException if the X or Y arrays are null, have different lengths or have
+     *     fewer than 2 values.
      */
-    //public static LUTWithInterpolator createLUT(List<Double> x, List<Double> y) {
+    // public static LUTWithInterpolator createLUT(List<Double> x, List<Double> y) {
     public void createLUT() {
         List<Double> x = this.mX;
         List<Double> y = this.mY;
 
         if (x == null || y == null || x.size() != y.size() || x.size() < 2) {
-            throw new IllegalArgumentException("There must be at least two control "
-                    + "points and the arrays must be of equal length.");
+            throw new IllegalArgumentException(
+                    "There must be at least two control " + "points and the arrays must be of equal length.");
         }
 
         final int n = x.size();
@@ -54,8 +51,8 @@ public class InterpLUT {
         for (int i = 0; i < n - 1; i++) {
             Double h = x.get(i + 1) - x.get(i);
             if (h <= 0f) {
-                throw new IllegalArgumentException("The control points must all "
-                        + "have strictly increasing X values.");
+                throw new IllegalArgumentException(
+                        "The control points must all " + "have strictly increasing X values.");
             }
             d[i] = (y.get(i + 1) - y.get(i)) / h;
         }
@@ -101,10 +98,22 @@ public class InterpLUT {
             return input;
         }
         if (input <= mX.get(0)) {
-            throw new IllegalArgumentException("User requested value outside of bounds of LUT. Bounds are: " + mX.get(0).toString() + " to " + mX.get(n - 1).toString() + ". Value provided was: " + input);
+            throw new IllegalArgumentException(
+                    "User requested value outside of bounds of LUT. Bounds are: "
+                            + mX.get(0).toString()
+                            + " to "
+                            + mX.get(n - 1).toString()
+                            + ". Value provided was: "
+                            + input);
         }
         if (input >= mX.get(n - 1)) {
-            throw new IllegalArgumentException("User requested value outside of bounds of LUT. Bounds are: " + mX.get(0).toString() + " to " + mX.get(n - 1).toString() + ". Value provided was: " + input);
+            throw new IllegalArgumentException(
+                    "User requested value outside of bounds of LUT. Bounds are: "
+                            + mX.get(0).toString()
+                            + " to "
+                            + mX.get(n - 1).toString()
+                            + ". Value provided was: "
+                            + input);
         }
 
         // Find the index 'i' of the last point with smaller X.
@@ -141,5 +150,4 @@ public class InterpLUT {
         str.append("]");
         return str.toString();
     }
-
 }

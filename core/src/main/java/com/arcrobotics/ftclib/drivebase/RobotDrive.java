@@ -1,7 +1,6 @@
 package com.arcrobotics.ftclib.drivebase;
 
 public abstract class RobotDrive {
-
     public static final double kDefaultRangeMin = -1.0;
     public static final double kDefaultRangeMax = 1.0;
     public static final double kDefaultMaxSpeed = 1.0;
@@ -11,9 +10,8 @@ public abstract class RobotDrive {
     protected double maxOutput = kDefaultMaxSpeed;
 
     /**
-     * The location of the motor on the robot.
-     * We assume the drivebase is made of at least two
-     * and at most four motors.
+     * The location of the motor on the robot. We assume the drivebase is made of at least two and at
+     * most four motors.
      */
     public enum MotorType {
         kBackLeft(2),
@@ -36,10 +34,10 @@ public abstract class RobotDrive {
     }
 
     /**
-     * Scale the output speed to the specified maxOutput value.
-     * The drivespeed is multiplied by this value.
+     * Scale the output speed to the specified maxOutput value. The drivespeed is multiplied by this
+     * value.
      *
-     * <p>The default value is {@value #kDefaultMaxSpeed}.</p>
+     * <p>The default value is {@value #kDefaultMaxSpeed}.
      *
      * @param maxOutput Multiplied with the output percentage computed by the drive functions.
      */
@@ -50,9 +48,9 @@ public abstract class RobotDrive {
     /**
      * Sets the clipped range for the drive inputs.
      *
-     * <p>The default clip range is {@value #kDefaultRangeMin} to {@value #kDefaultRangeMax}.
-     * Inputs smaller than the minimum are set to -1 and inputs greater
-     * than 1 are set to 1. See {@link #clipRange}</p>
+     * <p>The default clip range is {@value #kDefaultRangeMin} to {@value #kDefaultRangeMax}. Inputs
+     * smaller than the minimum are set to -1 and inputs greater than 1 are set to 1. See {@link
+     * #clipRange}
      *
      * @param min The minimum value of the range.
      * @param max The maximum value of the range.
@@ -63,23 +61,18 @@ public abstract class RobotDrive {
     }
 
     /**
-     * Returns minimum range value if the given value is less than
-     * the set minimum. If the value is greater than the set maximum,
-     * then the method returns the maximum value.
+     * Returns minimum range value if the given value is less than the set minimum. If the value is
+     * greater than the set maximum, then the method returns the maximum value.
      *
      * @param value The value to clip.
      */
     public double clipRange(double value) {
-        return value <= rangeMin ? rangeMin
-                : value >= rangeMax ? rangeMax
-                : value;
+        return value <= rangeMin ? rangeMin : value >= rangeMax ? rangeMax : value;
     }
 
     public abstract void stop();
 
-    /**
-     * Normalize the wheel speeds
-     */
+    /** Normalize the wheel speeds */
     protected void normalize(double[] wheelSpeeds, double magnitude) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         for (int i = 1; i < wheelSpeeds.length; i++) {
@@ -91,12 +84,9 @@ public abstract class RobotDrive {
         for (int i = 0; i < wheelSpeeds.length; i++) {
             wheelSpeeds[i] = (wheelSpeeds[i] / maxMagnitude) * magnitude;
         }
-
     }
 
-    /**
-     * Normalize the wheel speeds
-     */
+    /** Normalize the wheel speeds */
     protected void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         for (int i = 1; i < wheelSpeeds.length; i++) {
@@ -110,14 +100,10 @@ public abstract class RobotDrive {
                 wheelSpeeds[i] = (wheelSpeeds[i] / maxMagnitude);
             }
         }
-
     }
 
-    /**
-     * Square magnitude of number while keeping the sign.
-     */
+    /** Square magnitude of number while keeping the sign. */
     protected double squareInput(double input) {
         return input * Math.abs(input);
     }
-
 }

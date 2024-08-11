@@ -2,11 +2,9 @@ package com.example.ftclibexamples.OldCommandSample;
 
 import com.arcrobotics.ftclib.command.old.Command;
 import com.arcrobotics.ftclib.controller.PController;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class TurnAngleCommand implements Command {
-
     DriveSubsystem driveSubsystem;
     Telemetry tl;
     double angle;
@@ -22,9 +20,7 @@ public class TurnAngleCommand implements Command {
         // 1 is full power. 180 * 0.05 = 0.9
         headingController = new PController(0.05, angle, driveSubsystem.getHeading());
         headingController.setSetPoint(angle);
-
     }
-
 
     @Override
     public void initialize() {
@@ -35,7 +31,6 @@ public class TurnAngleCommand implements Command {
         tl.addData("Heading Setpoint", headingController.getSetPoint());
         // If within 5 degrees of setpoint, the target is considered reached
         headingController.setTolerance(1);
-
     }
 
     @Override
@@ -50,7 +45,6 @@ public class TurnAngleCommand implements Command {
     @Override
     public void end() {
         driveSubsystem.driveTrain.driveRobotCentric(0, 0, 0);
-
     }
 
     @Override

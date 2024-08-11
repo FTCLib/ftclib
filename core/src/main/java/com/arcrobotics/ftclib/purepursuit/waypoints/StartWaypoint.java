@@ -7,21 +7,19 @@ import com.arcrobotics.ftclib.purepursuit.Waypoint;
 import com.arcrobotics.ftclib.purepursuit.types.WaypointType;
 
 /**
- * A start waypoint represents the first waypoint in a path. This waypoint is
- * very simplified because the robot will never need to traverse it.
+ * A start waypoint represents the first waypoint in a path. This waypoint is very simplified
+ * because the robot will never need to traverse it.
  *
  * @author Michael Baljet, Team 14470
  * @version 1.1
  * @see Waypoint
  */
 public class StartWaypoint extends Pose2d implements Waypoint {
-
-    // If the robot moves towards this waypoint for longer than the timeout period, the path is aborted.
+    // If the robot moves towards this waypoint for longer than the timeout period, the path is
+    // aborted.
     private long timeoutMiliseconds;
 
-    /**
-     * Constructs a StartWaypoint. All values are set to their default.
-     */
+    /** Constructs a StartWaypoint. All values are set to their default. */
     public StartWaypoint() {
         timeoutMiliseconds = -1;
     }
@@ -78,5 +76,4 @@ public class StartWaypoint extends Pose2d implements Waypoint {
     public String toString() {
         return String.format("StartWaypoint(%s, %s)", getTranslation().getX(), getTranslation().getY());
     }
-
 }

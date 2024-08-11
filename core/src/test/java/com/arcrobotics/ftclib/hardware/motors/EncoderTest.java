@@ -1,14 +1,12 @@
 package com.arcrobotics.ftclib.hardware.motors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.function.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Supplier;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class EncoderTest {
-
     private MockMotor motor;
     private MockMotor.MockEncoder encoder;
 
@@ -63,5 +61,4 @@ public class EncoderTest {
             return position++;
         }
     }
-
 }

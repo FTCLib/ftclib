@@ -16,10 +16,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 @Autonomous
 @Disabled
 public class PurePursuitSample extends CommandOpMode {
-
     // define our constants
     static final double TRACKWIDTH = 13.7;
-    static final double WHEEL_DIAMETER = 4.0;    // inches
+    static final double WHEEL_DIAMETER = 4.0; // inches
     static double TICKS_TO_INCHES;
     static final double CENTER_WHEEL_OFFSET = 2.4;
 
@@ -48,27 +47,25 @@ public class PurePursuitSample extends CommandOpMode {
         TICKS_TO_INCHES = WHEEL_DIAMETER * Math.PI / leftEncoder.getCPR();
 
         // create our odometry object and subsystem
-        m_robotOdometry = new HolonomicOdometry(
-                () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
-                TRACKWIDTH, CENTER_WHEEL_OFFSET
-        );
+        m_robotOdometry =
+                new HolonomicOdometry(
+                        () -> leftEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+                        () -> rightEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+                        () -> centerEncoder.getCurrentPosition() * TICKS_TO_INCHES,
+                        TRACKWIDTH,
+                        CENTER_WHEEL_OFFSET);
         m_odometry = new OdometrySubsystem(m_robotOdometry);
 
         // create our pure pursuit command
-        ppCommand = new PurePursuitCommand(
-                m_robotDrive, m_odometry,
-                new StartWaypoint(0, 0),
-                new GeneralWaypoint(200, 0, 0.8, 0.8, 30),
-                new EndWaypoint(
-                        400, 0, 0, 0.5,
-                        0.5, 30, 0.8, 1
-                )
-        );
+        ppCommand =
+                new PurePursuitCommand(
+                        m_robotDrive,
+                        m_odometry,
+                        new StartWaypoint(0, 0),
+                        new GeneralWaypoint(200, 0, 0.8, 0.8, 30),
+                        new EndWaypoint(400, 0, 0, 0.5, 0.5, 30, 0.8, 1));
 
         // schedule the command
         schedule(ppCommand);
     }
-
 }

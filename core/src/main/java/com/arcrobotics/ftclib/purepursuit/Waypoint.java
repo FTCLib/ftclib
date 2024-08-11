@@ -5,15 +5,14 @@ import com.arcrobotics.ftclib.purepursuit.types.WaypointType;
 import com.arcrobotics.ftclib.purepursuit.waypoints.GeneralWaypoint;
 
 /**
- * A pure pursuit Waypoint is a point in which the robot traverses. Using Waypoints
- * one can construct a pure pursuit path for their robot to follow.
+ * A pure pursuit Waypoint is a point in which the robot traverses. Using Waypoints one can
+ * construct a pure pursuit path for their robot to follow.
  *
  * @author Michael Baljet, Team 14470
  * @version 1.2
  * @see GeneralWaypoint , EndWaypoint, StartWaypoint, PointTurnWaypoint, InterruptWaypoint
  */
 public interface Waypoint {
-
     /**
      * Returns this WayPoint's type.
      *
@@ -41,5 +40,4 @@ public interface Waypoint {
      * @return the timeout period of this waypoint.
      */
     public long getTimeout();
-
 }

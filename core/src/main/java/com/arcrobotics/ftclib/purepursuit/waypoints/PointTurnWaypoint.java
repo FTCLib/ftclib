@@ -13,17 +13,15 @@ import com.arcrobotics.ftclib.purepursuit.types.WaypointType;
  * @version 1.1
  */
 public class PointTurnWaypoint extends GeneralWaypoint {
-
-    // The expected level of error, the robot will consider itself at the waypoint when it is within the buffer. The buffers must be > 0.
+    // The expected level of error, the robot will consider itself at the waypoint when it is within
+    // the buffer. The buffers must be > 0.
     private double positionBuffer;
     private double rotationBuffer;
 
     // True if the robot has already "passed" this waypoint.
     private boolean traversed;
 
-    /**
-     * Constructs a PointTurnWaypoint. All values are set to their default.
-     */
+    /** Constructs a PointTurnWaypoint. All values are set to their default. */
     public PointTurnWaypoint() {
         positionBuffer = 0;
         rotationBuffer = 0;
@@ -33,15 +31,27 @@ public class PointTurnWaypoint extends GeneralWaypoint {
     /**
      * Constructs a PointTurnWaypoint with the provided values.
      *
-     * @param translation    The (x, y) translation of this waypoint.
-     * @param rotation       The rotation (preferred angle) of this waypoint.
-     * @param movementSpeed  The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed      The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius   The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
-     * @param positionBuffer The expected level of error, the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
-     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
+     * @param translation The (x, y) translation of this waypoint.
+     * @param rotation The rotation (preferred angle) of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
+     * @param positionBuffer The expected level of error, the robot will consider itself at the
+     *     waypoint when it is within the buffer. The buffer must be > 0.
+     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself
+     *     at the waypoint when it is within the buffer. The buffer must be > 0.
      */
-    public PointTurnWaypoint(Translation2d translation, Rotation2d rotation, double movementSpeed, double turnSpeed, double followRadius, double positionBuffer, double rotationBuffer) {
+    public PointTurnWaypoint(
+            Translation2d translation,
+            Rotation2d rotation,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius,
+            double positionBuffer,
+            double rotationBuffer) {
         super(translation, rotation, movementSpeed, turnSpeed, followRadius);
         this.positionBuffer = verifyBuffer(positionBuffer);
         this.rotationBuffer = verifyBuffer(rotationBuffer);
@@ -51,14 +61,25 @@ public class PointTurnWaypoint extends GeneralWaypoint {
     /**
      * Constructs a PointTurnWaypoint with the provided values.
      *
-     * @param pose           Position and rotation (preferred angle) of this waypoint.
-     * @param movementSpeed  The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed      The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius   The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
-     * @param positionBuffer The expected level of error, the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
-     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
+     * @param pose Position and rotation (preferred angle) of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
+     * @param positionBuffer The expected level of error, the robot will consider itself at the
+     *     waypoint when it is within the buffer. The buffer must be > 0.
+     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself
+     *     at the waypoint when it is within the buffer. The buffer must be > 0.
      */
-    public PointTurnWaypoint(Pose2d pose, double movementSpeed, double turnSpeed, double followRadius, double positionBuffer, double rotationBuffer) {
+    public PointTurnWaypoint(
+            Pose2d pose,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius,
+            double positionBuffer,
+            double rotationBuffer) {
         super(pose, movementSpeed, turnSpeed, followRadius);
         this.positionBuffer = verifyBuffer(positionBuffer);
         this.rotationBuffer = verifyBuffer(rotationBuffer);
@@ -68,16 +89,29 @@ public class PointTurnWaypoint extends GeneralWaypoint {
     /**
      * Constructs a PointTurnWaypoint with the provided values.
      *
-     * @param x               The x position of this waypoint.
-     * @param y               The y position of this waypoint.
+     * @param x The x position of this waypoint.
+     * @param y The y position of this waypoint.
      * @param rotationRadians The rotation (preferred angle) of this waypoint (in radians).
-     * @param movementSpeed   The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed       The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius    The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
-     * @param positionBuffer  The expected level of error, the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
-     * @param rotationBuffer  The expected level of error (in radians), the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
+     * @param positionBuffer The expected level of error, the robot will consider itself at the
+     *     waypoint when it is within the buffer. The buffer must be > 0.
+     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself
+     *     at the waypoint when it is within the buffer. The buffer must be > 0.
      */
-    public PointTurnWaypoint(double x, double y, double rotationRadians, double movementSpeed, double turnSpeed, double followRadius, double positionBuffer, double rotationBuffer) {
+    public PointTurnWaypoint(
+            double x,
+            double y,
+            double rotationRadians,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius,
+            double positionBuffer,
+            double rotationBuffer) {
         super(x, y, rotationRadians, movementSpeed, turnSpeed, followRadius);
         this.positionBuffer = verifyBuffer(positionBuffer);
         this.rotationBuffer = verifyBuffer(rotationBuffer);
@@ -87,15 +121,27 @@ public class PointTurnWaypoint extends GeneralWaypoint {
     /**
      * Constructs a PointTurnWaypoint with the provided values.
      *
-     * @param x              The x position of this waypoint.
-     * @param y              The y position of this waypoint.
-     * @param movementSpeed  The speed in which the robot moves at while traversing this waypoint, in the range [0, 1].
-     * @param turnSpeed      The speed in which the robot turns at while traversing this waypoint, in the range [0, 1].
-     * @param followRadius   The distance in which the robot traverses this waypoint. Please see guides to learn more about this value.
-     * @param positionBuffer The expected level of error, the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
-     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself at the waypoint when it is within the buffer. The buffer must be > 0.
+     * @param x The x position of this waypoint.
+     * @param y The y position of this waypoint.
+     * @param movementSpeed The speed in which the robot moves at while traversing this waypoint, in
+     *     the range [0, 1].
+     * @param turnSpeed The speed in which the robot turns at while traversing this waypoint, in the
+     *     range [0, 1].
+     * @param followRadius The distance in which the robot traverses this waypoint. Please see guides
+     *     to learn more about this value.
+     * @param positionBuffer The expected level of error, the robot will consider itself at the
+     *     waypoint when it is within the buffer. The buffer must be > 0.
+     * @param rotationBuffer The expected level of error (in radians), the robot will consider itself
+     *     at the waypoint when it is within the buffer. The buffer must be > 0.
      */
-    public PointTurnWaypoint(double x, double y, double movementSpeed, double turnSpeed, double followRadius, double positionBuffer, double rotationBuffer) {
+    public PointTurnWaypoint(
+            double x,
+            double y,
+            double movementSpeed,
+            double turnSpeed,
+            double followRadius,
+            double positionBuffer,
+            double rotationBuffer) {
         super(x, y, movementSpeed, turnSpeed, followRadius);
         this.positionBuffer = verifyBuffer(positionBuffer);
         this.rotationBuffer = verifyBuffer(rotationBuffer);
@@ -151,9 +197,7 @@ public class PointTurnWaypoint extends GeneralWaypoint {
         return traversed;
     }
 
-    /**
-     * Tells the waypoint that it has been traversed.
-     */
+    /** Tells the waypoint that it has been traversed. */
     public void setTraversed() {
         traversed = true;
     }
@@ -165,8 +209,7 @@ public class PointTurnWaypoint extends GeneralWaypoint {
      * @return True if the buffer is valid, false otherwise.
      */
     private double verifyBuffer(double buffer) {
-        if (buffer <= 0)
-            throw new IllegalArgumentException("The buffer must be > 0");
+        if (buffer <= 0) throw new IllegalArgumentException("The buffer must be > 0");
         return buffer;
     }
 
@@ -182,7 +225,7 @@ public class PointTurnWaypoint extends GeneralWaypoint {
 
     @Override
     public String toString() {
-        return String.format("PointTurnWaypoint(%s, %s)", getTranslation().getX(), getTranslation().getY());
+        return String.format(
+                "PointTurnWaypoint(%s, %s)", getTranslation().getX(), getTranslation().getY());
     }
-
 }

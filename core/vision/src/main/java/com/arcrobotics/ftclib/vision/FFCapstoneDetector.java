@@ -2,7 +2,6 @@ package com.arcrobotics.ftclib.vision;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -11,7 +10,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 public class FFCapstoneDetector {
-
     private OpenCvCamera camera;
     private boolean isUsingWebcam;
     private String cameraName;
@@ -22,7 +20,6 @@ public class FFCapstoneDetector {
     private int HEIGHT = 240;
     private double thresholdRight = 2 * WIDTH / 3.0;
     private double thresholdLeft = WIDTH / 3.0;
-
 
     private DetectorState detectorState = DetectorState.NOT_CONFIGURED;
 
@@ -55,47 +52,54 @@ public class FFCapstoneDetector {
     public void init() {
         synchronized (sync) {
             if (detectorState == DetectorState.NOT_CONFIGURED) {
-                //This will instantiate an OpenCvCamera object for the camera we'll be using
-                int cameraMonitorViewId = hardwareMap
-                        .appContext.getResources()
-                        .getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                // This will instantiate an OpenCvCamera object for the camera we'll be using
+                int cameraMonitorViewId =
+                        hardwareMap
+                                .appContext
+                                .getResources()
+                                .getIdentifier(
+                                        "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
                 if (isUsingWebcam) {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createWebcam(hardwareMap.get(WebcamName.class, cameraName), cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createWebcam(hardwareMap.get(WebcamName.class, cameraName), cameraMonitorViewId);
                 } else {
-                    camera = OpenCvCameraFactory.getInstance()
-                            .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+                    camera =
+                            OpenCvCameraFactory.getInstance()
+                                    .createInternalCamera(
+                                            OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
                 }
 
-                //Set the pipeline the camera should use and start streaming
+                // Set the pipeline the camera should use and start streaming
                 camera.setPipeline(capstonePipeline = new FFCapstonePipeline());
-
 
                 detectorState = DetectorState.INITIALIZING;
 
-                camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                    @Override
-                    public void onOpened() {
+                camera.openCameraDeviceAsync(
+                        new OpenCvCamera.AsyncCameraOpenListener() {
+                            @Override
+                            public void onOpened() {
+                                camera.startStreaming(WIDTH, HEIGHT, OpenCvCameraRotation.UPRIGHT);
 
-                        camera.startStreaming(WIDTH, HEIGHT, OpenCvCameraRotation.UPRIGHT);
+                                synchronized (sync) {
+                                    detectorState = DetectorState.RUNNING;
+                                }
+                            }
 
-                        synchronized (sync) {
-                            detectorState = DetectorState.RUNNING;
-                        }
-                    }
+                            @Override
+                            public void onError(int errorCode) {
+                                synchronized (sync) {
+                                    detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; // Set our state
+                                }
 
-                    @Override
-                    public void onError(int errorCode) {
-
-                        synchronized (sync) {
-                            detectorState = DetectorState.INIT_FAILURE_NOT_RUNNING; //Set our state
-                        }
-
-                        RobotLog.addGlobalWarningMessage("Warning: Camera device failed to open with EasyOpenCv error: " +
-                                ((errorCode == -1) ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE" : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")
-                        ); //Warn the user about the issue
-                    }
-                });
+                                RobotLog.addGlobalWarningMessage(
+                                        "Warning: Camera device failed to open with EasyOpenCv error: "
+                                                + ((errorCode == -1)
+                                                        ? "CAMERA_OPEN_ERROR_FAILURE_TO_OPEN_CAMERA_DEVICE"
+                                                        : "CAMERA_OPEN_ERROR_POSTMORTEM_OPMODE")); // Warn the user about the
+                                // issue
+                            }
+                        });
             }
         }
     }
@@ -130,13 +134,10 @@ public class FFCapstoneDetector {
         thresholdLeft = pixelsRight;
     }
 
-
     public Placement getPlacement() {
         if (capstonePipeline.getCentroid() != null) {
-            if (capstonePipeline.getCentroid().x > thresholdRight)
-                return Placement.RIGHT;
-            else if (capstonePipeline.getCentroid().x < thresholdLeft)
-                return Placement.LEFT;
+            if (capstonePipeline.getCentroid().x > thresholdRight) return Placement.RIGHT;
+            else if (capstonePipeline.getCentroid().x < thresholdLeft) return Placement.LEFT;
         }
         return Placement.CENTER;
     }
@@ -146,5 +147,4 @@ public class FFCapstoneDetector {
         RIGHT,
         CENTER
     }
-
 }

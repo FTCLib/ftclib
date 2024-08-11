@@ -3,9 +3,7 @@ package com.arcrobotics.ftclib.drivebase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
-/**
- * Holonomic drivebase
- */
+/** Holonomic drivebase */
 public class HDrive extends RobotDrive {
     Motor[] motors;
 
@@ -20,9 +18,9 @@ public class HDrive extends RobotDrive {
     /**
      * Constructor for the H-Drive class, which requires at least three motors.
      *
-     * @param mLeft  one of the necessary primary drive motors
+     * @param mLeft one of the necessary primary drive motors
      * @param mRight one of the necessary primary drive motors
-     * @param slide  the necessary slide motor for the use of h-drive
+     * @param slide the necessary slide motor for the use of h-drive
      */
     public HDrive(Motor mLeft, Motor mRight, Motor slide) {
         motors = new Motor[3];
@@ -34,20 +32,23 @@ public class HDrive extends RobotDrive {
     /**
      * The constructor that includes the angles of the motors.
      *
-     * <p>
-     * The default angles are {@value #kDefaultRightMotorAngle},
-     * {@value #kDefaultLeftMotorAngle}, {@value #kDefaultSlideMotorAngle}.
-     * </p>
+     * <p>The default angles are {@value #kDefaultRightMotorAngle}, {@value #kDefaultLeftMotorAngle},
+     * {@value #kDefaultSlideMotorAngle}.
      *
-     * @param mLeft           one of the necessary primary drive motors
-     * @param mRight          one of the necessary primary drive motors
-     * @param slide           the necessary slide motor for the use of h-drive
-     * @param leftMotorAngle  the angle of the left motor in radians
+     * @param mLeft one of the necessary primary drive motors
+     * @param mRight one of the necessary primary drive motors
+     * @param slide the necessary slide motor for the use of h-drive
+     * @param leftMotorAngle the angle of the left motor in radians
      * @param rightMotorAngle the angle of the right motor in radians
      * @param slideMotorAngle the angle of the slide motor in radians
      */
-    public HDrive(Motor mLeft, Motor mRight, Motor slide, double leftMotorAngle,
-                  double rightMotorAngle, double slideMotorAngle) {
+    public HDrive(
+            Motor mLeft,
+            Motor mRight,
+            Motor slide,
+            double leftMotorAngle,
+            double rightMotorAngle,
+            double slideMotorAngle) {
         motors = new Motor[3];
         motors[0] = mLeft;
         motors[1] = mRight;
@@ -61,9 +62,8 @@ public class HDrive extends RobotDrive {
     /**
      * Sets up the constructor for the holonomic drive.
      *
-     * @param myMotors The motors in order of:
-     *                 frontLeft, frontRight, backLeft, backRight.
-     *                 Do not input in any other order.
+     * @param myMotors The motors in order of: frontLeft, frontRight, backLeft, backRight. Do not
+     *     input in any other order.
      */
     public HDrive(Motor... myMotors) {
         motors = myMotors;
@@ -95,7 +95,8 @@ public class HDrive extends RobotDrive {
         }
     }
 
-    public void driveFieldCentric(double strafeSpeed, double forwardSpeed, double turn, double heading) {
+    public void driveFieldCentric(
+            double strafeSpeed, double forwardSpeed, double turn, double heading) {
         strafeSpeed = clipRange(strafeSpeed);
         forwardSpeed = clipRange(forwardSpeed);
         turn = clipRange(turn);
@@ -136,16 +137,11 @@ public class HDrive extends RobotDrive {
             speeds[MotorType.kBackLeft.value] += turn;
             speeds[MotorType.kBackRight.value] -= turn;
 
-            motors[MotorType.kFrontLeft.value]
-                    .set(speeds[MotorType.kFrontLeft.value] * maxOutput);
-            motors[MotorType.kFrontRight.value]
-                    .set(speeds[MotorType.kFrontRight.value] * -maxOutput);
-            motors[MotorType.kBackLeft.value]
-                    .set(speeds[MotorType.kBackLeft.value] * maxOutput);
-            motors[MotorType.kBackRight.value]
-                    .set(speeds[MotorType.kBackRight.value] * -maxOutput);
+            motors[MotorType.kFrontLeft.value].set(speeds[MotorType.kFrontLeft.value] * maxOutput);
+            motors[MotorType.kFrontRight.value].set(speeds[MotorType.kFrontRight.value] * -maxOutput);
+            motors[MotorType.kBackLeft.value].set(speeds[MotorType.kBackLeft.value] * maxOutput);
+            motors[MotorType.kBackRight.value].set(speeds[MotorType.kBackRight.value] * -maxOutput);
         }
-
     }
 
     public void driveRobotCentric(double strafeSpeed, double forwardSpeed, double turn) {

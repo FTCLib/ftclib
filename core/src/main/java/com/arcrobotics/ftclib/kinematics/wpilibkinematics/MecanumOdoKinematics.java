@@ -1,7 +1,6 @@
 package com.arcrobotics.ftclib.kinematics.wpilibkinematics;
 
 import com.arcrobotics.ftclib.geometry.Translation2d;
-
 import org.ejml.simple.SimpleMatrix;
 
 public class MecanumOdoKinematics {
@@ -21,19 +20,22 @@ public class MecanumOdoKinematics {
     /**
      * Constructs a mecanum drive kinematics object.
      *
-     * @param frontLeftWheelMeters  The location of the front-left wheel relative to the
-     *                              physical center of the robot.
-     * @param frontRightWheelMeters The location of the front-right wheel relative to
-     *                              the physical center of the robot.
-     * @param rearLeftWheelMeters   The location of the rear-left wheel relative to the
-     *                              physical center of the robot.
-     * @param rearRightWheelMeters  The location of the rear-right wheel relative to the
-     *                              physical center of the robot.
+     * @param frontLeftWheelMeters The location of the front-left wheel relative to the physical
+     *     center of the robot.
+     * @param frontRightWheelMeters The location of the front-right wheel relative to the physical
+     *     center of the robot.
+     * @param rearLeftWheelMeters The location of the rear-left wheel relative to the physical center
+     *     of the robot.
+     * @param rearRightWheelMeters The location of the rear-right wheel relative to the physical
+     *     center of the robot.
      */
-    public MecanumOdoKinematics(Translation2d frontLeftWheelMeters,
-                                Translation2d frontRightWheelMeters,
-                                Translation2d rearLeftWheelMeters,
-                                Translation2d rearRightWheelMeters, double auxDistance, double wheelbaseWidth) {
+    public MecanumOdoKinematics(
+            Translation2d frontLeftWheelMeters,
+            Translation2d frontRightWheelMeters,
+            Translation2d rearLeftWheelMeters,
+            Translation2d rearRightWheelMeters,
+            double auxDistance,
+            double wheelbaseWidth) {
         m_frontLeftWheelMeters = frontLeftWheelMeters;
         m_frontRightWheelMeters = frontRightWheelMeters;
         m_rearLeftWheelMeters = rearLeftWheelMeters;
@@ -41,35 +43,32 @@ public class MecanumOdoKinematics {
         this.auxDistance = auxDistance;
         m_inverseKinematics = new SimpleMatrix(4, 3);
 
-        setInverseKinematics(frontLeftWheelMeters, frontRightWheelMeters,
-                rearLeftWheelMeters, rearRightWheelMeters);
+        setInverseKinematics(
+                frontLeftWheelMeters, frontRightWheelMeters, rearLeftWheelMeters, rearRightWheelMeters);
         m_forwardKinematics = m_inverseKinematics.pseudoInverse();
 
         wheelbaseRadius = wheelbaseWidth / 2;
-
     }
 
     /**
      * Performs inverse kinematics to return the wheel speeds from a desired chassis velocity. This
      * method is often used to convert joystick values into wheel speeds.
      *
-     * <p>This function also supports variable centers of rotation. During normal
-     * operations, the center of rotation is usually the same as the physical
-     * center of the robot; therefore, the argument is defaulted to that use case.
-     * However, if you wish to change the center of rotation for evasive
-     * manuevers, vision alignment, or for any other use case, you can do so.
+     * <p>This function also supports variable centers of rotation. During normal operations, the
+     * center of rotation is usually the same as the physical center of the robot; therefore, the
+     * argument is defaulted to that use case. However, if you wish to change the center of rotation
+     * for evasive manuevers, vision alignment, or for any other use case, you can do so.
      *
-     * @param chassisSpeeds          The desired chassis speed.
-     * @param centerOfRotationMeters The center of rotation. For example, if you set the
-     *                               center of rotation at one corner of the robot and provide
-     *                               a chassis speed that only has a dtheta component, the robot
-     *                               will rotate around that corner.
-     * @return The wheel speeds. Use caution because they are not normalized. Sometimes, a user
-     * input may cause one of the wheel speeds to go above the attainable max velocity. Use
-     * the {@link MecanumDriveWheelSpeeds#normalize(double)} function to rectify this issue.
+     * @param chassisSpeeds The desired chassis speed.
+     * @param centerOfRotationMeters The center of rotation. For example, if you set the center of
+     *     rotation at one corner of the robot and provide a chassis speed that only has a dtheta
+     *     component, the robot will rotate around that corner.
+     * @return The wheel speeds. Use caution because they are not normalized. Sometimes, a user input
+     *     may cause one of the wheel speeds to go above the attainable max velocity. Use the {@link
+     *     MecanumDriveWheelSpeeds#normalize(double)} function to rectify this issue.
      */
-    public MecanumDriveWheelSpeeds toWheelSpeeds(ChassisSpeeds chassisSpeeds,
-                                                 Translation2d centerOfRotationMeters) {
+    public MecanumDriveWheelSpeeds toWheelSpeeds(
+            ChassisSpeeds chassisSpeeds, Translation2d centerOfRotationMeters) {
         // We have a new center of rotation. We need to compute the matrix again.
         if (!centerOfRotationMeters.equals(m_prevCoR)) {
             Translation2d fl = m_frontLeftWheelMeters.minus(centerOfRotationMeters);
@@ -82,8 +81,11 @@ public class MecanumOdoKinematics {
         }
 
         SimpleMatrix chassisSpeedsVector = new SimpleMatrix(3, 1);
-        chassisSpeedsVector.setColumn(0, 0,
-                chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond,
+        chassisSpeedsVector.setColumn(
+                0,
+                0,
+                chassisSpeeds.vxMetersPerSecond,
+                chassisSpeeds.vyMetersPerSecond,
                 chassisSpeeds.omegaRadiansPerSecond);
 
         SimpleMatrix wheelsMatrix = m_inverseKinematics.mult(chassisSpeedsVector);
@@ -91,8 +93,7 @@ public class MecanumOdoKinematics {
                 wheelsMatrix.get(0, 0),
                 wheelsMatrix.get(1, 0),
                 wheelsMatrix.get(2, 0),
-                wheelsMatrix.get(3, 0)
-        );
+                wheelsMatrix.get(3, 0));
     }
 
     /**
@@ -115,10 +116,12 @@ public class MecanumOdoKinematics {
      * @return The resulting chassis speed.
      */
     public ChassisSpeeds toChassisSpeeds(OdoWheelSpeeds wheelSpeeds) {
-        double omega = (wheelSpeeds.rightMetersPerSecond - wheelSpeeds.leftMetersPerSecond)
-                / (wheelbaseRadius * 2);
+        double omega =
+                (wheelSpeeds.rightMetersPerSecond - wheelSpeeds.leftMetersPerSecond)
+                        / (wheelbaseRadius * 2);
         return new ChassisSpeeds(
-                (wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond) / 2, wheelSpeeds.centerMetersPerSecond - auxDistance * omega,
+                (wheelSpeeds.leftMetersPerSecond + wheelSpeeds.rightMetersPerSecond) / 2,
+                wheelSpeeds.centerMetersPerSecond - auxDistance * omega,
                 (omega));
     }
 
@@ -130,8 +133,8 @@ public class MecanumOdoKinematics {
      * @param rl The location of the rear-left wheel relative to the physical center of the robot.
      * @param rr The location of the rear-right wheel relative to the physical center of the robot.
      */
-    private void setInverseKinematics(Translation2d fl, Translation2d fr,
-                                      Translation2d rl, Translation2d rr) {
+    private void setInverseKinematics(
+            Translation2d fl, Translation2d fr, Translation2d rl, Translation2d rr) {
         m_inverseKinematics.setRow(0, 0, 1, -1, -(fl.getX() + fl.getY()));
         m_inverseKinematics.setRow(1, 0, 1, 1, fr.getX() - fr.getY());
         m_inverseKinematics.setRow(2, 0, 1, 1, rl.getX() - rl.getY());

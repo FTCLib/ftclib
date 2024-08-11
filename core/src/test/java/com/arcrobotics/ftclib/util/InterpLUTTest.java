@@ -1,11 +1,10 @@
 package com.arcrobotics.ftclib.util;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InterpLUTTest {
+import org.junit.jupiter.api.Test;
 
+public class InterpLUTTest {
     InterpLUT lut;
 
     @Test
@@ -16,9 +15,10 @@ public class InterpLUTTest {
         lut.add(4, 1);
         try {
             lut.createLUT();
-            //computing the spline
+            // computing the spline
         } catch (IllegalArgumentException ex) {
-            assertEquals("The control points must all have strictly increasing X values.", ex.getMessage());
+            assertEquals(
+                    "The control points must all have strictly increasing X values.", ex.getMessage());
         }
     }
 
@@ -49,7 +49,8 @@ public class InterpLUTTest {
         try {
             lut.createLUT();
         } catch (IllegalArgumentException ex) {
-            assertEquals("There must be at least two control points and the arrays must be of equal length.",
+            assertEquals(
+                    "There must be at least two control points and the arrays must be of equal length.",
                     ex.getMessage());
         }
     }
@@ -63,5 +64,4 @@ public class InterpLUTTest {
         lut.createLUT();
         assertEquals(lut.get(85.5), 86.5);
     }
-
 }

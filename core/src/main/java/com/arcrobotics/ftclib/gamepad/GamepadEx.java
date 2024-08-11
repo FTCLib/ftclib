@@ -3,32 +3,35 @@ package com.arcrobotics.ftclib.gamepad;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys.Button;
 import com.qualcomm.robotcore.hardware.Gamepad;
-
 import java.util.HashMap;
 
-/**
- * An extended gamepad for more advanced toggles, key events,
- * and other control processors.
- */
+/** An extended gamepad for more advanced toggles, key events, and other control processors. */
 public class GamepadEx {
-
-    /**
-     * The retrievable gamepad object
-     */
+    /** The retrievable gamepad object */
     public Gamepad gamepad;
 
     private HashMap<Button, ButtonReader> buttonReaders;
     private HashMap<Button, GamepadButton> gamepadButtons;
 
     private final Button[] buttons = {
-            Button.Y, Button.X, Button.A, Button.B, Button.LEFT_BUMPER, Button.RIGHT_BUMPER, Button.BACK,
-            Button.START, Button.DPAD_UP, Button.DPAD_DOWN, Button.DPAD_LEFT, Button.DPAD_RIGHT,
-            Button.LEFT_STICK_BUTTON, Button.RIGHT_STICK_BUTTON
+        Button.Y,
+        Button.X,
+        Button.A,
+        Button.B,
+        Button.LEFT_BUMPER,
+        Button.RIGHT_BUMPER,
+        Button.BACK,
+        Button.START,
+        Button.DPAD_UP,
+        Button.DPAD_DOWN,
+        Button.DPAD_LEFT,
+        Button.DPAD_RIGHT,
+        Button.LEFT_STICK_BUTTON,
+        Button.RIGHT_STICK_BUTTON
     };
 
     /**
-     * The constructor, that contains the gamepad object from the
-     * opmode.
+     * The constructor, that contains the gamepad object from the opmode.
      *
      * @param gamepad the gamepad object from the opmode
      */
@@ -117,30 +120,22 @@ public class GamepadEx {
         return triggerValue;
     }
 
-    /**
-     * @return the y-value on the left analog stick
-     */
+    /** @return the y-value on the left analog stick */
     public double getLeftY() {
         return -gamepad.left_stick_y;
     }
 
-    /**
-     * @return the y-value on the right analog stick
-     */
+    /** @return the y-value on the right analog stick */
     public double getRightY() {
         return gamepad.right_stick_y;
     }
 
-    /**
-     * @return the x-value on the left analog stick
-     */
+    /** @return the x-value on the left analog stick */
     public double getLeftX() {
         return gamepad.left_stick_x;
     }
 
-    /**
-     * @return the x-value on the right analog stick
-     */
+    /** @return the x-value on the right analog stick */
     public double getRightX() {
         return gamepad.right_stick_x;
     }
@@ -165,10 +160,7 @@ public class GamepadEx {
         return buttonReaders.get(button).wasJustReleased();
     }
 
-    /**
-     * Updates the value for each {@link ButtonReader}.
-     * Call this once in your loop.
-     */
+    /** Updates the value for each {@link ButtonReader}. Call this once in your loop. */
     public void readButtons() {
         for (Button button : buttons) {
             buttonReaders.get(button).readValue();
@@ -202,5 +194,4 @@ public class GamepadEx {
     public GamepadButton getGamepadButton(Button button) {
         return gamepadButtons.get(button);
     }
-
 }

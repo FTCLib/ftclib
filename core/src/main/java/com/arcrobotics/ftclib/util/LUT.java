@@ -3,11 +3,8 @@ package com.arcrobotics.ftclib.util;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * A lookup table
- */
+/** A lookup table */
 public class LUT<T extends Number, R> extends TreeMap<T, R> {
-
     public void add(T key, R out) {
         put(key, out);
     }
@@ -35,5 +32,4 @@ public class LUT<T extends Number, R> extends TreeMap<T, R> {
             return null;
         }
     }
-
 }

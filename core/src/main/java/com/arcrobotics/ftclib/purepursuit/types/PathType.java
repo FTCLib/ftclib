@@ -10,8 +10,6 @@ import com.arcrobotics.ftclib.purepursuit.Path;
  * @see Path
  */
 public enum PathType {
-
     HEADING_CONTROLLED,
     WAYPOINT_ORDERING_CONTROLLED,
-
 }

@@ -10,11 +10,9 @@ import com.arcrobotics.ftclib.purepursuit.Waypoint;
  * @see Waypoint
  */
 public enum WaypointType {
-
     GENERAL,
     POINT_TURN,
     INTERRUPT,
     START,
     END,
-
 }

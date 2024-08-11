@@ -1,5 +1,6 @@
 package com.arcrobotics.ftclib.vision;
 
+import java.util.ArrayList;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
@@ -7,8 +8,6 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.apriltag.AprilTagDetectorJNI;
 import org.openftc.easyopencv.OpenCvPipeline;
-
-import java.util.ArrayList;
 
 public class AprilTag2dPipeline extends OpenCvPipeline {
     private long nativeAprilTagPtr;
@@ -30,7 +29,9 @@ public class AprilTag2dPipeline extends OpenCvPipeline {
     private final Object decimationSync = new Object();
 
     public AprilTag2dPipeline() {
-        nativeAprilTagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
+        nativeAprilTagPtr =
+                AprilTagDetectorJNI.createApriltagDetector(
+                        AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
     }
 
     @Override
@@ -46,8 +47,9 @@ public class AprilTag2dPipeline extends OpenCvPipeline {
     }
 
     /**
-     * <p>Processes frames received from the camera and runs detections.</p>
-     * <p>Doesn't need to be called by the user.</p>
+     * Processes frames received from the camera and runs detections.
+     *
+     * <p>Doesn't need to be called by the user.
      *
      * @param input The frame from the camera
      * @return The modified frame
@@ -65,7 +67,9 @@ public class AprilTag2dPipeline extends OpenCvPipeline {
         }
 
         // Run AprilTag
-        detections = AprilTagDetectorJNI.runAprilTagDetectorSimple(nativeAprilTagPtr, grey, tagSize, fx, fy, cx, cy);
+        detections =
+                AprilTagDetectorJNI.runAprilTagDetectorSimple(
+                        nativeAprilTagPtr, grey, tagSize, fx, fy, cx, cy);
         synchronized (detectionsUpdateSync) {
             detectionsUpdate = detections;
         }
@@ -101,11 +105,10 @@ public class AprilTag2dPipeline extends OpenCvPipeline {
         }
     }
 
-
     /**
      * Draws a square on the input image.
      *
-     * @param buf    The image to draw on
+     * @param buf The image to draw on
      * @param points The corners of the square
      */
     void draw2dSquare(Mat buf, Point[] points) {

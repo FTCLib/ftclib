@@ -18,7 +18,6 @@ import java.util.Set;
  */
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class CommandBase implements Command {
-
     protected String m_name = this.getClass().getSimpleName();
     protected String m_subsystem = "Ungrouped";
     protected Set<Subsystem> m_requirements = new HashSet<>();
@@ -52,5 +51,4 @@ public abstract class CommandBase implements Command {
     public void setSubsystem(String subsystem) {
         m_subsystem = subsystem;
     }
-
 }

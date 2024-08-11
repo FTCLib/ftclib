@@ -1,5 +1,8 @@
 package com.arcrobotics.ftclib.controller;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.arcrobotics.ftclib.controller.wpilibcontroller.RamseteController;
 import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
@@ -8,17 +11,11 @@ import com.arcrobotics.ftclib.kinematics.wpilibkinematics.ChassisSpeeds;
 import com.arcrobotics.ftclib.trajectory.Trajectory;
 import com.arcrobotics.ftclib.trajectory.TrajectoryConfig;
 import com.arcrobotics.ftclib.trajectory.TrajectoryGenerator;
-
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class RamseteControllerTest {
-
     private static final double kTolerance = 1 / 12.0;
 
     @Test
@@ -39,8 +36,9 @@ public class RamseteControllerTest {
             Trajectory.State state = trajectory.sample(kDt * i);
 
             ChassisSpeeds output = controller.calculate(robotPose, state);
-            robotPose = robotPose.exp(new Twist2d(output.vxMetersPerSecond * kDt, 0,
-                    output.omegaRadiansPerSecond * kDt));
+            robotPose =
+                    robotPose.exp(
+                            new Twist2d(output.vxMetersPerSecond * kDt, 0, output.omegaRadiansPerSecond * kDt));
         }
 
         final List<Trajectory.State> states = trajectory.getStates();
@@ -50,13 +48,20 @@ public class RamseteControllerTest {
         // must be final or effectively final.
         final Pose2d finalRobotPose = robotPose;
         assertAll(
-                () -> assertEquals(endPose.getTranslation().getX(), finalRobotPose.getTranslation().getX(),
-                        kTolerance),
-                () -> assertEquals(endPose.getTranslation().getY(), finalRobotPose.getTranslation().getY(),
-                        kTolerance),
-                () -> assertEquals(0.0,
-                        endPose.getRotation().getRadians()
-                                - finalRobotPose.getRotation().getRadians(), Math.toRadians(2))
-        );
+                () ->
+                        assertEquals(
+                                endPose.getTranslation().getX(),
+                                finalRobotPose.getTranslation().getX(),
+                                kTolerance),
+                () ->
+                        assertEquals(
+                                endPose.getTranslation().getY(),
+                                finalRobotPose.getTranslation().getY(),
+                                kTolerance),
+                () ->
+                        assertEquals(
+                                0.0,
+                                endPose.getRotation().getRadians() - finalRobotPose.getRotation().getRadians(),
+                                Math.toRadians(2)));
     }
 }

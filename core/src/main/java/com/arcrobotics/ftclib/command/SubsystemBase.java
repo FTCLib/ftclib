@@ -8,13 +8,11 @@
 package com.arcrobotics.ftclib.command;
 
 /**
- * A base for subsystems and provides a more intuitive
- * method for setting the default command.
+ * A base for subsystems and provides a more intuitive method for setting the default command.
  *
  * @author Jackson
  */
 public abstract class SubsystemBase implements Subsystem {
-
     protected String m_name = this.getClass().getSimpleName();
 
     public SubsystemBase() {
@@ -36,5 +34,4 @@ public abstract class SubsystemBase implements Subsystem {
     public void setSubsystem(String subsystem) {
         setName(subsystem);
     }
-
 }

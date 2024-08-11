@@ -4,10 +4,10 @@ import com.arcrobotics.ftclib.command.old.Command;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class DriveForwardCommand implements Command {
-
     private DriveSubsystem driveSubsystem;
     private ElapsedTime timer;
     private double distance, speed;
+
     // 4 inches e.g
 
     public DriveForwardCommand(DriveSubsystem driveSubsystem, double distance, double speed) {
@@ -26,13 +26,11 @@ public class DriveForwardCommand implements Command {
         driveSubsystem.driveToPosition((int) distance, speed);
     }
 
-
     @Override
     public void end() {
         driveSubsystem.reset();
         driveSubsystem.stop();
     }
-
 
     @Override
     public boolean isFinished() {

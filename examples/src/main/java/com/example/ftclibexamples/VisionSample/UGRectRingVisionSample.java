@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.vision.UGRectDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class UGRectRingVisionSample extends LinearOpMode {
-
     UGRectDetector UGRectDetector;
 
     @Override
@@ -29,5 +28,4 @@ public class UGRectRingVisionSample extends LinearOpMode {
             telemetry.addData("Rings", stack);
         }
     }
-
 }

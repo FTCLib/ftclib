@@ -2,12 +2,9 @@ package com.arcrobotics.ftclib.command.old;
 
 import java.util.ArrayList;
 
-/**
- * Allows you to combine multiple commands into one.
- */
+/** Allows you to combine multiple commands into one. */
 @Deprecated
 public abstract class SequentialCommandGroup implements Command {
-
     private ArrayList<Command> commands;
     private int numCommandsFinished;
     private int totalNumCommands;
@@ -37,13 +34,10 @@ public abstract class SequentialCommandGroup implements Command {
                 commands.get(currentCommand).initialize();
             }
         }
-
     }
 
     @Override
-    public void end() {
-
-    }
+    public void end() {}
 
     @Override
     public boolean isFinished() {

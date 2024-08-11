@@ -1,43 +1,31 @@
 package com.arcrobotics.ftclib.hardware;
 
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 import java.util.List;
 import java.util.Map;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public interface SensorDistanceEx extends SensorDistance {
-
-    /**
-     * Represents a target distance
-     */
+    /** Represents a target distance */
     class DistanceTarget {
-        /**
-         * The distance.
-         */
+        /** The distance. */
         private double target;
 
         /**
-         * The threshold for the actual distance to be in for the target to be reached.
-         * Essentially, this is the acceptable error range.
+         * The threshold for the actual distance to be in for the target to be reached. Essentially,
+         * this is the acceptable error range.
          */
         private double threshold;
 
-        /**
-         * User-defined name for the target. Optional.
-         */
+        /** User-defined name for the target. Optional. */
         private String name;
 
-        /**
-         * User-defined unit of distance. This unit applies to both the threshold and the target
-         */
+        /** User-defined unit of distance. This unit applies to both the threshold and the target */
         private DistanceUnit unit;
 
         /**
          * Target <b>must</b> be within the range of the Rev 2m Sensor, which is 2 meters
          *
-         * @param unit   user-defined unit of distance
+         * @param unit user-defined unit of distance
          * @param target the target distance
          */
         public DistanceTarget(DistanceUnit unit, double target) {
@@ -45,8 +33,8 @@ public interface SensorDistanceEx extends SensorDistance {
         }
 
         /**
-         * @param unit      user-defined unit of distance
-         * @param target    the target distance
+         * @param unit user-defined unit of distance
+         * @param target the target distance
          * @param threshold the acceptable error range
          */
         public DistanceTarget(DistanceUnit unit, double target, double threshold) {
@@ -54,10 +42,10 @@ public interface SensorDistanceEx extends SensorDistance {
         }
 
         /**
-         * @param unit      the user-defined unit of distance
-         * @param target    the target distance
+         * @param unit the user-defined unit of distance
+         * @param target the target distance
          * @param threshold the acceptable error range
-         * @param name      the name of the sensor
+         * @param name the name of the sensor
          */
         public DistanceTarget(DistanceUnit unit, double target, double threshold, String name) {
             this.unit = unit;
@@ -70,7 +58,8 @@ public interface SensorDistanceEx extends SensorDistance {
          * Determines if the sensor reached the target value (within the threshold error range)
          *
          * @param currentDistance the current distance to the target
-         * @return whether the the sensor reached the the target value (within the threshold error range)
+         * @return whether the the sensor reached the the target value (within the threshold error
+         *     range)
          */
         public boolean atTarget(double currentDistance) {
             currentDistance = unit.fromUnit(unit, currentDistance);
@@ -124,42 +113,31 @@ public interface SensorDistanceEx extends SensorDistance {
             return threshold;
         }
 
-        /**
-         * @return the target distance
-         */
+        /** @return the target distance */
         public double getTarget() {
             return target;
         }
 
-        /**
-         * @return the name of the sensor
-         */
+        /** @return the name of the sensor */
         public String getName() {
             return this.name;
         }
     }
 
-    /**
-     * Returns whether a given DistanceTarget has been reached
-     */
+    /** Returns whether a given DistanceTarget has been reached */
     boolean targetReached(SensorRevTOFDistance.DistanceTarget target);
 
-    /**
-     * Adds a DistanceTarget.
-     */
+    /** Adds a DistanceTarget. */
     void addTarget(SensorRevTOFDistance.DistanceTarget target);
 
-    /**
-     * Adds an List of DistanceTargets to the targets associated with this device.
-     */
+    /** Adds an List of DistanceTargets to the targets associated with this device. */
     void addTargets(List<SensorRevTOFDistance.DistanceTarget> targets);
 
     /**
-     * Checks all targets currently associated with this device and returns a {@code Map}
-     * with the results.
+     * Checks all targets currently associated with this device and returns a {@code Map} with the
+     * results.
      *
      * @return The results of the checking.
      */
     Map<SensorRevTOFDistance.DistanceTarget, Boolean> checkAllTargets();
-
 }

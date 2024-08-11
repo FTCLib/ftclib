@@ -9,15 +9,13 @@ import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class DriveSubsystem implements Subsystem {
-
     GamepadEx driverGamepad;
     Telemetry telemetry;
 
-    //Gyro
+    // Gyro
     RevIMU gyro;
 
     private MotorEx backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor;
@@ -42,7 +40,8 @@ public class DriveSubsystem implements Subsystem {
         backLeftMotor.setInverted(true);
         frontLeftMotor.setInverted(true);
 
-        driveTrain = new MecanumDrive(false, frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor);
+        driveTrain =
+                new MecanumDrive(false, frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor);
 
         slowDownButton = new ButtonReader(driverGamepad, GamepadKeys.Button.X);
     }
@@ -52,10 +51,10 @@ public class DriveSubsystem implements Subsystem {
     }
 
     public boolean atTargetPos() {
-        return frontLeftMotor.atTargetPosition() &&
-                backLeftMotor.atTargetPosition() &&
-                frontRightMotor.atTargetPosition() &&
-                backRightMotor.atTargetPosition();
+        return frontLeftMotor.atTargetPosition()
+                && backLeftMotor.atTargetPosition()
+                && frontRightMotor.atTargetPosition()
+                && backRightMotor.atTargetPosition();
     }
 
     public void driveToPosition(int target) {
@@ -104,13 +103,13 @@ public class DriveSubsystem implements Subsystem {
 
         double maxSpeed;
 
-        if (slowDownButton.isDown())
-            maxSpeed = 0.5;
-        else
-            maxSpeed = 1;
+        if (slowDownButton.isDown()) maxSpeed = 0.5;
+        else maxSpeed = 1;
 
-        driveTrain.driveRobotCentric(driverGamepad.getLeftY() * maxSpeed,
-                driverGamepad.getLeftX() * maxSpeed, driverGamepad.getRightX() * maxSpeed);
+        driveTrain.driveRobotCentric(
+                driverGamepad.getLeftY() * maxSpeed,
+                driverGamepad.getLeftX() * maxSpeed,
+                driverGamepad.getRightX() * maxSpeed);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.arcrobotics.ftclib.hardware.motors;
 
 import androidx.annotation.NonNull;
-
 import com.arcrobotics.ftclib.controller.PController;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
@@ -10,22 +9,27 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-
 import java.util.function.Supplier;
 
 /**
- * This is the common wrapper for the {@link DcMotor} object in the
- * FTC SDK.
+ * This is the common wrapper for the {@link DcMotor} object in the FTC SDK.
  *
  * @author Jackson
  */
 public class Motor implements HardwareDevice {
-
     public enum GoBILDA {
-        RPM_30(5264, 30), RPM_43(3892, 43), RPM_60(2786, 60), RPM_84(1993.6, 84),
-        RPM_117(1425.2, 117), RPM_223(753.2, 223), RPM_312(537.6, 312), RPM_435(383.6, 435),
-        RPM_1150(145.6, 1150), RPM_1620(103.6, 1620), BARE(28, 6000), NONE(0, 0);
-
+        RPM_30(5264, 30),
+        RPM_43(3892, 43),
+        RPM_60(2786, 60),
+        RPM_84(1993.6, 84),
+        RPM_117(1425.2, 117),
+        RPM_223(753.2, 223),
+        RPM_312(537.6, 312),
+        RPM_435(383.6, 435),
+        RPM_1150(145.6, 1150),
+        RPM_1620(103.6, 1620),
+        BARE(28, 6000),
+        NONE(0, 0);
         private double cpr, rpm;
 
         GoBILDA(double cpr, double rpm) {
@@ -47,7 +51,8 @@ public class Motor implements HardwareDevice {
     }
 
     public enum Direction {
-        FORWARD(1), REVERSE(-1);
+        FORWARD(1),
+        REVERSE(-1);
 
         private int val;
 
@@ -61,7 +66,6 @@ public class Motor implements HardwareDevice {
     }
 
     public class Encoder {
-
         private Supplier<Integer> m_position;
         private int resetVal, lastPosition;
         private Direction direction;
@@ -70,8 +74,8 @@ public class Motor implements HardwareDevice {
         /**
          * The encoder object for the motor.
          *
-         * @param position the position supplier which just points to the
-         *                 current position of the motor in ticks
+         * @param position the position supplier which just points to the current position of the motor
+         *     in ticks
          */
         public Encoder(Supplier<Integer> position) {
             m_position = position;
@@ -83,9 +87,7 @@ public class Motor implements HardwareDevice {
             lastTimeStamp = (double) System.nanoTime() / 1E9;
         }
 
-        /**
-         * @return the current position of the encoder
-         */
+        /** @return the current position of the encoder */
         public int getPosition() {
             int currentPosition = m_position.get();
             if (currentPosition != lastPosition) {
@@ -98,23 +100,17 @@ public class Motor implements HardwareDevice {
             return direction.getMultiplier() * currentPosition - resetVal;
         }
 
-        /**
-         * @return the distance traveled by the encoder
-         */
+        /** @return the distance traveled by the encoder */
         public double getDistance() {
             return dpp * getPosition();
         }
 
-        /**
-         * @return the velocity of the encoder adjusted to account for the distance per pulse
-         */
+        /** @return the velocity of the encoder adjusted to account for the distance per pulse */
         public double getRate() {
             return dpp * getVelocity();
         }
 
-        /**
-         * Resets the encoder without having to stop the motor.
-         */
+        /** Resets the encoder without having to stop the motor. */
         public void reset() {
             resetVal += getPosition();
         }
@@ -138,16 +134,12 @@ public class Motor implements HardwareDevice {
             this.direction = direction;
         }
 
-        /**
-         * @return the number of revolutions turned by the encoder
-         */
+        /** @return the number of revolutions turned by the encoder */
         public double getRevolutions() {
             return getPosition() / getCPR();
         }
 
-        /**
-         * @return the raw velocity of the motor reported by the encoder
-         */
+        /** @return the raw velocity of the motor reported by the encoder */
         public double getRawVelocity() {
             double velo = getVelocity();
             if (velo != lastVelo) {
@@ -160,14 +152,12 @@ public class Motor implements HardwareDevice {
             return velo;
         }
 
-        /**
-         * @return the estimated acceleration of the motor in ticks per second squared
-         */
+        /** @return the estimated acceleration of the motor in ticks per second squared */
         public double getAcceleration() {
             return accel;
         }
 
-        private final static int CPS_STEP = 0x10000;
+        private static final int CPS_STEP = 0x10000;
 
         /**
          * Corrects for velocity overflow
@@ -181,14 +171,13 @@ public class Motor implements HardwareDevice {
             }
             return real;
         }
-
     }
 
-    /**
-     * The RunMode of the motor.
-     */
+    /** The RunMode of the motor. */
     public enum RunMode {
-        VelocityControl, PositionControl, RawPower
+        VelocityControl,
+        PositionControl,
+        RawPower
     }
 
     public enum ZeroPowerBehavior {
@@ -210,19 +199,13 @@ public class Motor implements HardwareDevice {
     public DcMotor motor;
     public Encoder encoder;
 
-    /**
-     * The runmode of the motor
-     */
+    /** The runmode of the motor */
     protected RunMode runmode;
 
-    /**
-     * The achievable ticks per second velocity of the motor
-     */
+    /** The achievable ticks per second velocity of the motor */
     public double ACHIEVABLE_MAX_TICKS_PER_SECOND;
 
-    /**
-     * The motor type
-     */
+    /** The motor type */
     protected GoBILDA type;
 
     protected PIDController veloController = new PIDController(1, 0, 0);
@@ -235,14 +218,13 @@ public class Motor implements HardwareDevice {
 
     protected double bufferFraction = 0.9;
 
-    public Motor() {
-    }
+    public Motor() {}
 
     /**
      * Constructs the instance motor for the wrapper
      *
      * @param hMap the hardware map from the OpMode
-     * @param id   the device id from the RC config
+     * @param id the device id from the RC config
      */
     public Motor(@NonNull HardwareMap hMap, String id) {
         this(hMap, id, GoBILDA.NONE);
@@ -252,8 +234,8 @@ public class Motor implements HardwareDevice {
     /**
      * Constructs the instance motor for the wrapper
      *
-     * @param hMap        the hardware map from the OpMode
-     * @param id          the device id from the RC config
+     * @param hMap the hardware map from the OpMode
+     * @param id the device id from the RC config
      * @param gobildaType the type of gobilda 5202 series motor being used
      */
     public Motor(@NonNull HardwareMap hMap, String id, @NonNull GoBILDA gobildaType) {
@@ -270,9 +252,9 @@ public class Motor implements HardwareDevice {
      * Constructs an instance motor for the wrapper
      *
      * @param hMap the hardware map from the OpMode
-     * @param id   the device id from the RC config
-     * @param cpr  the counts per revolution of the motor
-     * @param rpm  the revolutions per minute of the motor
+     * @param id the device id from the RC config
+     * @param cpr the counts per revolution of the motor
+     * @param rpm the revolutions per minute of the motor
      */
     public Motor(@NonNull HardwareMap hMap, String id, double cpr, double rpm) {
         this(hMap, id, GoBILDA.NONE);
@@ -293,7 +275,9 @@ public class Motor implements HardwareDevice {
     public void set(double output) {
         if (runmode == RunMode.VelocityControl) {
             double speed = bufferFraction * output * ACHIEVABLE_MAX_TICKS_PER_SECOND;
-            double velocity = veloController.calculate(getVelocity(), speed) + feedforward.calculate(speed, encoder.getAcceleration());
+            double velocity =
+                    veloController.calculate(getVelocity(), speed)
+                            + feedforward.calculate(speed, encoder.getAcceleration());
             motor.setPower(velocity / ACHIEVABLE_MAX_TICKS_PER_SECOND);
         } else if (runmode == RunMode.PositionControl) {
             double error = positionController.calculate(getDistance());
@@ -313,62 +297,46 @@ public class Motor implements HardwareDevice {
         return encoder.setDistancePerPulse(distancePerPulse);
     }
 
-    /**
-     * @return the distance traveled by the encoder
-     */
+    /** @return the distance traveled by the encoder */
     public double getDistance() {
         return encoder.getDistance();
     }
 
-    /**
-     * @return the rate of the encoder
-     */
+    /** @return the rate of the encoder */
     public double getRate() {
         return encoder.getRate();
     }
 
-    /**
-     * @return if the motor is at the target position or distance
-     */
+    /** @return if the motor is at the target position or distance */
     public boolean atTargetPosition() {
         return positionController.atSetPoint();
     }
 
-    /**
-     * Resets the external encoder wrapper value.
-     */
+    /** Resets the external encoder wrapper value. */
     public void resetEncoder() {
         encoder.reset();
     }
 
-    /**
-     * Resets the internal position of the motor.
-     */
+    /** Resets the internal position of the motor. */
     public void stopAndResetEncoder() {
         encoder.resetVal = 0;
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    /**
-     * @return the velocity coefficients
-     */
+    /** @return the velocity coefficients */
     public double[] getVeloCoefficients() {
         return veloController.getCoefficients();
     }
 
-    /**
-     * @return the position coefficient
-     */
+    /** @return the position coefficient */
     public double getPositionCoefficient() {
         return positionController.getP();
     }
 
-    /**
-     * @return the feedforward coefficients
-     */
+    /** @return the feedforward coefficients */
     public double[] getFeedforwardCoefficients() {
-        return new double[]{feedforward.ks, feedforward.kv, feedforward.ka};
+        return new double[] {feedforward.ks, feedforward.kv, feedforward.ka};
     }
 
     /**
@@ -380,30 +348,22 @@ public class Motor implements HardwareDevice {
         motor.setZeroPowerBehavior(behavior.getBehavior());
     }
 
-    /**
-     * @return the current position of the motor in ticks
-     */
+    /** @return the current position of the motor in ticks */
     public int getCurrentPosition() {
         return encoder.getPosition();
     }
 
-    /**
-     * @return the corrected velocity for overflow
-     */
+    /** @return the corrected velocity for overflow */
     public double getCorrectedVelocity() {
         return encoder.getCorrectedVelocity();
     }
 
-    /**
-     * @return the counts per revolution of the motor
-     */
+    /** @return the counts per revolution of the motor */
     public double getCPR() {
         return type == GoBILDA.NONE ? motor.getMotorType().getTicksPerRev() : type.getCPR();
     }
 
-    /**
-     * @return the max RPM of the motor
-     */
+    /** @return the max RPM of the motor */
     public double getMaxRPM() {
         return type == GoBILDA.NONE ? motor.getMotorType().getMaxRPM() : type.getRPM();
     }
@@ -449,9 +409,8 @@ public class Motor implements HardwareDevice {
     }
 
     /**
-     * Sets the target position for the motor to the desired target.
-     * Once {@link #set(double)} is called, the motor will attempt to move in the direction
-     * of said target.
+     * Sets the target position for the motor to the desired target. Once {@link #set(double)} is
+     * called, the motor will attempt to move in the direction of said target.
      *
      * @param target the target position in ticks
      */
@@ -460,9 +419,8 @@ public class Motor implements HardwareDevice {
     }
 
     /**
-     * Sets the target distance for the motor to the desired target.
-     * Once {@link #set(double)} is called, the motor will attempt to move in the direction
-     * of said target.
+     * Sets the target distance for the motor to the desired target. Once {@link #set(double)} is
+     * called, the motor will attempt to move in the direction of said target.
      *
      * @param target the target position in units of distance
      */
@@ -539,9 +497,7 @@ public class Motor implements HardwareDevice {
         positionController.setP(kp);
     }
 
-    /**
-     * Disable the motor.
-     */
+    /** Disable the motor. */
     @Override
     public void disable() {
         motor.close();
@@ -549,8 +505,12 @@ public class Motor implements HardwareDevice {
 
     @Override
     public String getDeviceType() {
-        return "Motor " + motor.getDeviceName() + " from " + motor.getManufacturer()
-                + " in port " + motor.getPortNumber();
+        return "Motor "
+                + motor.getDeviceName()
+                + " from "
+                + motor.getManufacturer()
+                + " in port "
+                + motor.getPortNumber();
     }
 
     /**
@@ -560,5 +520,4 @@ public class Motor implements HardwareDevice {
     public void stopMotor() {
         motor.setPower(0);
     }
-
 }

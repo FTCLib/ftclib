@@ -1,24 +1,18 @@
 package com.arcrobotics.ftclib.hardware;
 
 import android.graphics.Color;
-
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class SensorColor implements HardwareDevice {
-
     private final ColorSensor colorSensor;
 
-    /**
-     * Constructs a color sensor, defaults to ARGB
-     */
+    /** Constructs a color sensor, defaults to ARGB */
     public SensorColor(ColorSensor colorSensor) {
         this.colorSensor = colorSensor;
     }
 
-    /**
-     * Constructs a color sensor using the given hardware map and name, defaults to ARGB
-     */
+    /** Constructs a color sensor using the given hardware map and name, defaults to ARGB */
     public SensorColor(HardwareMap hardwareMap, String name) {
         this(hardwareMap.get(ColorSensor.class, name));
     }
@@ -30,12 +24,10 @@ public class SensorColor implements HardwareDevice {
      */
     public int[] HSVtoARGB(int alpha, float[] hsv) {
         int color = Color.HSVToColor(alpha, hsv);
-        return new int[]{Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color)};
+        return new int[] {Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color)};
     }
 
-    /**
-     * Converts an RGB value to an HSV value. Provide the float[] to be used.
-     */
+    /** Converts an RGB value to an HSV value. Provide the float[] to be used. */
     public float[] RGBtoHSV(int red, int green, int blue, float[] hsv) {
         Color.RGBToHSV(red, green, blue, hsv);
         return hsv;
@@ -47,33 +39,25 @@ public class SensorColor implements HardwareDevice {
      * @return an int array representing ARGB
      */
     public int[] getARGB() {
-        return new int[]{alpha(), red(), green(), blue()};
+        return new int[] {alpha(), red(), green(), blue()};
     }
 
-    /**
-     * Gets the alpha value from the sensor
-     */
+    /** Gets the alpha value from the sensor */
     public int alpha() {
         return colorSensor.alpha();
     }
 
-    /**
-     * Gets the red value from the sensor
-     */
+    /** Gets the red value from the sensor */
     public int red() {
         return colorSensor.red();
     }
 
-    /**
-     * Gets the green value from the sensor
-     */
+    /** Gets the green value from the sensor */
     public int green() {
         return colorSensor.green();
     }
 
-    /**
-     * Gets the blue value from the sensor
-     */
+    /** Gets the blue value from the sensor */
     public int blue() {
         return colorSensor.blue();
     }
@@ -87,5 +71,4 @@ public class SensorColor implements HardwareDevice {
     public String getDeviceType() {
         return "Color Sensor";
     }
-
 }

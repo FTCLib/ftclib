@@ -14,7 +14,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "LUT Sample")
 @Disabled
 public class InterpLUTSample extends LinearOpMode {
-
     // our lookup table of distances from the goal and respective speeds of the shooter
     InterpLUT lut;
 
@@ -26,13 +25,13 @@ public class InterpLUTSample extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         shooter = new Motor(hardwareMap, "shooter");
 
-        //Adding each val with a key
+        // Adding each val with a key
         lut.add(5, 1);
         lut.add(4.1, 0.9);
         lut.add(3.6, 0.75);
         lut.add(2.7, .5);
         lut.add(1.1, 0.2);
-        //generating final equation
+        // generating final equation
         lut.createLUT();
 
         leftEncoder = new MotorEx(hardwareMap, "left");
@@ -47,13 +46,9 @@ public class InterpLUTSample extends LinearOpMode {
         perpEncoder.setDistancePerPulse(2 * Math.PI / (double) 8192);
 
         // The last two values are trackwidth and center_wheel_offset
-        odometry = new HolonomicOdometry(
-                leftEncoder::getDistance,
-                rightEncoder::getDistance,
-                perpEncoder::getDistance,
-                14,
-                2.1
-        );
+        odometry =
+                new HolonomicOdometry(
+                        leftEncoder::getDistance, rightEncoder::getDistance, perpEncoder::getDistance, 14, 2.1);
 
         odometry.updatePose(new Pose2d(3, 4, new Rotation2d(0)));
 
@@ -68,5 +63,4 @@ public class InterpLUTSample extends LinearOpMode {
             odometry.updatePose();
         }
     }
-
 }

@@ -7,17 +7,16 @@
 
 package com.arcrobotics.ftclib.command;
 
-import java.util.function.BooleanSupplier;
-
 import static com.arcrobotics.ftclib.command.CommandGroupBase.requireUngrouped;
 
+import java.util.function.BooleanSupplier;
 
 /**
  * Runs one of two commands, depending on the value of the given condition when this command is
- * initialized. Does not actually schedule the selected command - rather, the command is run
- * through this command; this ensures that the command will behave as expected if used as part of a
- * CommandGroup. Requires the requirements of both commands, again to ensure proper functioning
- * when used in a CommandGroup. If this is undesired, consider using {@link ScheduleCommand}.
+ * initialized. Does not actually schedule the selected command - rather, the command is run through
+ * this command; this ensures that the command will behave as expected if used as part of a
+ * CommandGroup. Requires the requirements of both commands, again to ensure proper functioning when
+ * used in a CommandGroup. If this is undesired, consider using {@link ScheduleCommand}.
  *
  * <p>As this command contains multiple component commands within it, it is technically a command
  * group; the command instances that are passed to it cannot be added to any other groups, or
@@ -28,7 +27,6 @@ import static com.arcrobotics.ftclib.command.CommandGroupBase.requireUngrouped;
  * @author Jackson
  */
 public class ConditionalCommand extends CommandBase {
-
     private final Command m_onTrue;
     private final Command m_onFalse;
     private final BooleanSupplier m_condition;
@@ -37,8 +35,8 @@ public class ConditionalCommand extends CommandBase {
     /**
      * Creates a new ConditionalCommand.
      *
-     * @param onTrue    the command to run if the condition is true
-     * @param onFalse   the command to run if the condition is false
+     * @param onTrue the command to run if the condition is true
+     * @param onFalse the command to run if the condition is false
      * @param condition the condition to determine which command to run
      */
     public ConditionalCommand(Command onTrue, Command onFalse, BooleanSupplier condition) {
@@ -82,5 +80,4 @@ public class ConditionalCommand extends CommandBase {
     public boolean runsWhenDisabled() {
         return m_onTrue.runsWhenDisabled() && m_onFalse.runsWhenDisabled();
     }
-
 }

@@ -3,24 +3,18 @@ package com.arcrobotics.ftclib.hardware.motors;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * A continuous rotation servo that uses a motor object to
- * and a P controller to limit speed and acceleration.
+ * A continuous rotation servo that uses a motor object to and a P controller to limit speed and
+ * acceleration.
  *
  * @author Jackson
  */
 public class CRServo extends Motor {
-
-    /**
-     * The CR ServoEx motor object.
-     */
+    /** The CR ServoEx motor object. */
     protected com.qualcomm.robotcore.hardware.CRServo crServo;
 
-    /**
-     * The constructor for the CR Servo.
-     */
+    /** The constructor for the CR Servo. */
     public CRServo(HardwareMap hMap, String id) {
         crServo = hMap.get(com.qualcomm.robotcore.hardware.CRServo.class, id);
-
     }
 
     @Override
@@ -35,8 +29,10 @@ public class CRServo extends Motor {
 
     @Override
     public void setInverted(boolean isInverted) {
-        crServo.setDirection(isInverted ? com.qualcomm.robotcore.hardware.CRServo.Direction.REVERSE
-                : com.qualcomm.robotcore.hardware.CRServo.Direction.FORWARD);
+        crServo.setDirection(
+                isInverted
+                        ? com.qualcomm.robotcore.hardware.CRServo.Direction.REVERSE
+                        : com.qualcomm.robotcore.hardware.CRServo.Direction.FORWARD);
     }
 
     @Override

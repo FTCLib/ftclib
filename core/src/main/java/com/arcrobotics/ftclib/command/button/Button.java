@@ -8,14 +8,13 @@
 package com.arcrobotics.ftclib.command.button;
 
 import com.arcrobotics.ftclib.command.Command;
-
 import java.util.function.BooleanSupplier;
 
 /**
  * This class provides an easy way to link commands to OI inputs.
  *
- * <p>It is very easy to link a button to a command. For instance, you could link the trigger
- * button of a joystick to a "score" command.
+ * <p>It is very easy to link a button to a command. For instance, you could link the trigger button
+ * of a joystick to a "score" command.
  *
  * <p>This class represents a subclass of Trigger that is specifically aimed at buttons on an
  * operator interface as a common use case of the more generalized Trigger objects. This is a simple
@@ -25,13 +24,11 @@ import java.util.function.BooleanSupplier;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class Button extends Trigger {
-
     /**
      * Default constructor; creates a button that is never pressed (unless {@link Button#get()} is
      * overridden).
      */
-    public Button() {
-    }
+    public Button() {}
 
     /**
      * Creates a new button with the given condition determining whether it is pressed.
@@ -45,7 +42,7 @@ public abstract class Button extends Trigger {
     /**
      * Starts the given command whenever the button is newly pressed.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this button, so calls can be chained
      */
@@ -79,11 +76,11 @@ public abstract class Button extends Trigger {
 
     /**
      * Constantly starts the given command while the button is held.
-     * <p>
-     * {@link Command#schedule(boolean)} will be called repeatedly while the button is held, and will
-     * be canceled when the button is released.
      *
-     * @param command       the command to start
+     * <p>{@link Command#schedule(boolean)} will be called repeatedly while the button is held, and
+     * will be canceled when the button is released.
+     *
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this button, so calls can be chained
      */
@@ -94,9 +91,9 @@ public abstract class Button extends Trigger {
 
     /**
      * Constantly starts the given command while the button is held.
-     * <p>
-     * {@link Command#schedule(boolean)} will be called repeatedly while the button is held, and will
-     * be canceled when the button is released.  The command is set to be interruptible.
+     *
+     * <p>{@link Command#schedule(boolean)} will be called repeatedly while the button is held, and
+     * will be canceled when the button is released. The command is set to be interruptible.
      *
      * @param command the command to start
      * @return this button, so calls can be chained
@@ -121,7 +118,7 @@ public abstract class Button extends Trigger {
      * Starts the given command when the button is first pressed, and cancels it when it is released,
      * but does not start it again if it ends or is otherwise interrupted.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this button, so calls can be chained
      */
@@ -132,7 +129,7 @@ public abstract class Button extends Trigger {
 
     /**
      * Starts the given command when the button is first pressed, and cancels it when it is released,
-     * but does not start it again if it ends or is otherwise interrupted.  The command is set to be
+     * but does not start it again if it ends or is otherwise interrupted. The command is set to be
      * interruptible.
      *
      * @param command the command to start
@@ -143,11 +140,10 @@ public abstract class Button extends Trigger {
         return this;
     }
 
-
     /**
      * Starts the command when the button is released.
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      * @return this button, so calls can be chained
      */
@@ -157,7 +153,7 @@ public abstract class Button extends Trigger {
     }
 
     /**
-     * Starts the command when the button is released.  The command is set to be interruptible.
+     * Starts the command when the button is released. The command is set to be interruptible.
      *
      * @param command the command to start
      * @return this button, so calls can be chained
@@ -181,7 +177,7 @@ public abstract class Button extends Trigger {
     /**
      * Toggles the command whenever the button is pressed (on then off then on).
      *
-     * @param command       the command to start
+     * @param command the command to start
      * @param interruptible whether the command is interruptible
      */
     public Button toggleWhenPressed(final Command command, boolean interruptible) {
@@ -190,8 +186,8 @@ public abstract class Button extends Trigger {
     }
 
     /**
-     * Toggles the command whenever the button is pressed (on then off then on).  The command is set
-     * to be interruptible.
+     * Toggles the command whenever the button is pressed (on then off then on). The command is set to
+     * be interruptible.
      *
      * @param command the command to start
      * @return this button, so calls can be chained
@@ -202,22 +198,23 @@ public abstract class Button extends Trigger {
     }
 
     /**
-     * Toggles the between the two commands whenever the button is pressed (commadOne then
-     * commandTwo then commandOne).
+     * Toggles the between the two commands whenever the button is pressed (commadOne then commandTwo
+     * then commandOne).
      *
-     * @param commandOne    the command to start
-     * @param commandTwo    the command to be activated after
+     * @param commandOne the command to start
+     * @param commandTwo the command to be activated after
      * @param interruptible whether the command is interruptible
      * @return this button, so calls can be chained
      */
-    public Button toggleWhenPressed(final Command commandOne, final Command commandTwo, boolean interruptible) {
+    public Button toggleWhenPressed(
+            final Command commandOne, final Command commandTwo, boolean interruptible) {
         toggleWhenActive(commandOne, commandTwo, interruptible);
         return this;
     }
 
     /**
-     * Toggles the between the two commands whenever the button is pressed (commadOne then
-     * commandTwo then commandOne).  These commands are set to be interruptible.
+     * Toggles the between the two commands whenever the button is pressed (commadOne then commandTwo
+     * then commandOne). These commands are set to be interruptible.
      *
      * @param commandOne the command to start
      * @param commandTwo the command to be activated after
@@ -230,7 +227,7 @@ public abstract class Button extends Trigger {
 
     /**
      * Toggles the between the two given runnables whenever the button is pressed (runnableOne then
-     * runnableTwo then runnableOne).  These runnables are set to be interruptible.
+     * runnableTwo then runnableOne). These runnables are set to be interruptible.
      *
      * @param runnableOne the runnable to start
      * @param runnableTwo the runnable to be activated after runnableOne
@@ -251,5 +248,4 @@ public abstract class Button extends Trigger {
         cancelWhenActive(command);
         return this;
     }
-
 }

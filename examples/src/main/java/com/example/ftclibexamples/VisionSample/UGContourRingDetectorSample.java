@@ -5,13 +5,11 @@ import com.arcrobotics.ftclib.vision.UGContourRingPipeline;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 @Autonomous
 @Disabled
 public class UGContourRingDetectorSample extends LinearOpMode {
-
     private UGContourRingDetector detector;
 
     private static final boolean USING_WEBCAM = false;
@@ -21,14 +19,11 @@ public class UGContourRingDetectorSample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         if (!USING_WEBCAM) {
-            detector = new UGContourRingDetector(
-                    hardwareMap, OpenCvInternalCamera.CameraDirection.BACK,
-                    telemetry, true
-            );
+            detector =
+                    new UGContourRingDetector(
+                            hardwareMap, OpenCvInternalCamera.CameraDirection.BACK, telemetry, true);
         } else {
-            detector = new UGContourRingDetector(
-                    hardwareMap, "webcam", telemetry, true
-            );
+            detector = new UGContourRingDetector(hardwareMap, "webcam", telemetry, true);
         }
 
         UGContourRingDetector.PipelineConfiguration.setCAMERA_HEIGHT(CAMERA_HEIGHT);
@@ -51,5 +46,4 @@ public class UGContourRingDetectorSample extends LinearOpMode {
             height = detector.getHeight();
         }
     }
-
 }
