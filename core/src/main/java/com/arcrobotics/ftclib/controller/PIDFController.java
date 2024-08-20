@@ -1,5 +1,7 @@
 package com.arcrobotics.ftclib.controller;
 
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
 /**
  * This is a PID controller (https://en.wikipedia.org/wiki/PID_controller)
  * for your robot. Internally, it performs all the calculations for you.
@@ -66,19 +68,22 @@ public class PIDFController {
         reset();
     }
 
+    /**
+     * Constructs a new PIDFController with the specified coefficients.
+     *
+     * @param coefficients The PIDF coefficients to be used for the controller.
+     *                     This should contain the proportional (p), integral (i),
+     *                     derivative (d) and FeedForward (f) coefficients.
+     */
+    public PIDFController(PIDFCoefficients coefficients) {
+        this(coefficients.p, coefficients.i, coefficients.d, coefficients.f);
+    }
+
+
     public void reset() {
         totalError = 0;
         prevErrorVal = 0;
         lastTimeStamp = 0;
-    }
-
-    /**
-     * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
-     *
-     * @param positionTolerance Position error which is tolerable.
-     */
-    public void setTolerance(double positionTolerance) {
-        setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -142,6 +147,15 @@ public class PIDFController {
      */
     public double[] getTolerance() {
         return new double[]{errorTolerance_p, errorTolerance_v};
+    }
+
+    /**
+     * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
+     *
+     * @param positionTolerance Position error which is tolerable.
+     */
+    public void setTolerance(double positionTolerance) {
+        setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -229,40 +243,39 @@ public class PIDFController {
         totalError = 0;
     }
 
-    public void setP(double kp) {
-        kP = kp;
-    }
-    
-    public void setI(double ki) {
-        kI = ki;
-    }
-
-    public void setD(double kd) {
-        kD = kd;
-    }
-
-    public void setF(double kf) {
-        kF = kf;
-    }
-
     public double getP() {
         return kP;
+    }
+
+    public void setP(double kp) {
+        kP = kp;
     }
 
     public double getI() {
         return kI;
     }
 
+    public void setI(double ki) {
+        kI = ki;
+    }
+
     public double getD() {
         return kD;
+    }
+
+    public void setD(double kd) {
+        kD = kd;
     }
 
     public double getF() {
         return kF;
     }
 
+    public void setF(double kf) {
+        kF = kf;
+    }
+
     public double getPeriod() {
         return period;
     }
-
 }
