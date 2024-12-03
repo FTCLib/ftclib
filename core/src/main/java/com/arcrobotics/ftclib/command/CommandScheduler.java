@@ -366,9 +366,7 @@ public final class CommandScheduler {
      * Cancels all commands that are currently scheduled.
      */
     public void cancelAll() {
-        for (Command command : m_scheduledCommands.keySet()) {
-            cancel(command);
-        }
+        cancel(m_scheduledCommands.keySet().toArray(new Command[0]));
     }
 
     /**
