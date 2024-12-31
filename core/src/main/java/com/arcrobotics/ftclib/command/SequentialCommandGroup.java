@@ -66,6 +66,9 @@ public class SequentialCommandGroup extends CommandGroupBase {
         if (m_commands.isEmpty()) {
             return;
         }
+        if (m_currentCommandIndex == -1) {
+            return;
+        }
 
         Command currentCommand = m_commands.get(m_currentCommandIndex);
 
@@ -81,6 +84,9 @@ public class SequentialCommandGroup extends CommandGroupBase {
 
     @Override
     public void end(boolean interrupted) {
+        if (m_currentCommandIndex == -1) {
+            return;
+        }
         if (interrupted && !m_commands.isEmpty()) {
             m_commands.get(m_currentCommandIndex).end(true);
         }
